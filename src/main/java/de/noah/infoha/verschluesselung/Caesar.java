@@ -2,11 +2,11 @@ package de.noah.infoha.verschluesselung;
 
 import java.util.Map;
 
-public class Caeser extends Verschluesselung {
+public class Caesar extends Verschluesselung {
 
     private int verschoben;
 
-    public Caeser(int verschoben) {
+    public Caesar(int verschoben) {
         this.verschoben = verschoben;
         loadKeys();
 

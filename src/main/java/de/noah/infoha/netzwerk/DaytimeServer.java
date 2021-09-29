@@ -15,13 +15,13 @@ public class DaytimeServer extends Server {
 
     @Override
     public void processNewConnection(String pClientIP, int pClientPort) {
-        System.out.println("Client '"+pClientIP+":"+pClientPort+"' hat sich verbunden.");
+        System.out.println("[Server] Client '"+pClientIP+":"+pClientPort+"' hat sich verbunden.");
         send(pClientIP, pClientPort, getDisplayTime(TimeZone.getTimeZone("GMT-8:00")));
     }
 
     @Override
     public void processMessage(String pClientIP, int pClientPort, String pMessage) {
-        System.out.println("Client '"+pClientIP+":"+pClientPort+"' hat eine Nachricht gesendet: \""+pMessage+"\"");
+        System.out.println("[Server] Client '"+pClientIP+":"+pClientPort+"' hat eine Nachricht gesendet: \""+pMessage+"\"");
         if(pMessage.startsWith("gettime ")) {
             try {
                 send(pClientIP, pClientPort, getDisplayTime(TimeZone.getTimeZone(pMessage.replace("gettime ", ""))));

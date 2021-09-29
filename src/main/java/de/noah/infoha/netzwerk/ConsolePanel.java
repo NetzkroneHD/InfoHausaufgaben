@@ -34,8 +34,10 @@ public class ConsolePanel extends JFrame {
                     System.out.println("[Server] Starte Server...");
                     server = new DaytimeServer((Integer)spinner.getValue());
                     btnStartServer.setText("Stoppe Server");
+                    System.out.println("[Server] Server gestartet.");
                 } else {
                     server.close();
+                    btnStartServer.setText("Starte Server");
                 }
             }
         });
@@ -44,6 +46,7 @@ public class ConsolePanel extends JFrame {
 
         consoleOutPut = new TextArea();
         consoleOutPut.setBounds(10, 228, 561, 160);
+        consoleOutPut.setEditable(false);
         contentPane.add(consoleOutPut);
 
         btnStartClient = new JButton("Starte Client");
@@ -54,6 +57,7 @@ public class ConsolePanel extends JFrame {
                     btnStartClient.setText("Stoppe Client");
                 } else {
                     client.close();
+                    btnStartClient.setText("Starte Client");
                 }
             }
         });
@@ -70,7 +74,7 @@ public class ConsolePanel extends JFrame {
         contentPane.add(lblHost);
 
         spinner = new JSpinner();
-        spinner.setBounds(10, 141, 47, 20);
+        spinner.setBounds(10, 141, 89, 20);
         contentPane.add(spinner);
 
         JLabel lblServerPort = new JLabel("Server Port:");

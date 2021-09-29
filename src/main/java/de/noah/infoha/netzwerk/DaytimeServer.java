@@ -34,7 +34,7 @@ public class DaytimeServer extends Server {
 
     @Override
     public void processClosingConnection(String pClientIP, int pClientPort) {
-        System.out.println("Client '"+pClientIP+":"+pClientPort+"' hat die Verbindung unterbrochen.");
+        System.out.println("[Server] Client '"+pClientIP+":"+pClientPort+"' hat die Verbindung unterbrochen.");
     }
 
     private String getDisplayTime(TimeZone timeZone) {

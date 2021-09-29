@@ -1,7 +1,6 @@
 package de.noah.infoha.verschluesselung;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public abstract class Verschluesselung {
 

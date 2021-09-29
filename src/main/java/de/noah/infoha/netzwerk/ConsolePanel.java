@@ -18,6 +18,7 @@ public class ConsolePanel extends JFrame {
     private DaytimeServer server;
     private DaytimeClient client;
 
+    //92.209.162.12:25565
     public ConsolePanel() {
         super("Console Panel");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,9 +33,14 @@ public class ConsolePanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if(btnStartServer.getText().equalsIgnoreCase("Starte Server")) {
                     System.out.println("[Server] Starte Server...");
-                    server = new DaytimeServer((Integer)spinner.getValue());
-                    btnStartServer.setText("Stoppe Server");
-                    System.out.println("[Server] Server gestartet.");
+                    try {
+                        server = new DaytimeServer((Integer)spinner.getValue());
+                        btnStartServer.setText("Stoppe Server");
+                        System.out.println("[Server] Server gestartet.");
+
+                    } catch (Exception ex) {
+                        System.out.println("[Server] Konnte Server nicht starten: "+ex);
+                    }
                 } else {
                     server.close();
                     btnStartServer.setText("Starte Server");
@@ -53,8 +59,19 @@ public class ConsolePanel extends JFrame {
         btnStartClient.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(btnStartClient.getText().equalsIgnoreCase("Starte Client")) {
-                    client = new DaytimeClient(textFieldIp.getText().split(":")[0], Integer.parseInt(textFieldIp.getText().split(":")[1]));
-                    btnStartClient.setText("Stoppe Client");
+                    if(server == null || !server.isOpen()) {
+                        System.out.println("Der Server muss zuerst gestartet werden.");
+                        return;
+                    }
+                    try {
+                        final String ip = textFieldIp.getText().split(":")[0];
+                        final int port = Integer.parseInt(textFieldIp.getText().split(":")[1]);
+                        client = new DaytimeClient(ip, port);
+
+                        btnStartClient.setText("Stoppe Client");
+                    } catch (Exception ex) {
+                        System.out.println("[Client] Konnte Client nicht starten: "+ex);
+                    }
                 } else {
                     client.close();
                     btnStartClient.setText("Starte Client");

@@ -8,5 +8,6 @@ public class Info {
         //92.209.162.12:25565
         final ConsolePanel cp = new ConsolePanel();
         cp.setVisible(true);
+
     }
 }

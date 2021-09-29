@@ -39,7 +39,8 @@ public class DaytimeServer extends Server {
     }
 
     private String getDisplayTime(TimeZone timeZone) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a z");
+        final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a z");
+        formatter.setTimeZone(timeZone);
         final Calendar c = Calendar.getInstance(timeZone);
         formatter.setCalendar(c);
         return formatter.format(c.getTime());

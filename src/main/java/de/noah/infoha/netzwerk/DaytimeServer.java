@@ -27,7 +27,7 @@ public class DaytimeServer extends Server {
             try {
                 send(pClientIP, pClientPort, getDisplayTime(TimeZone.getTimeZone(pMessage.replace("gettime ", ""))));
             } catch (Exception e) {
-                send(pClientIP, pClientPort, "Invalid format. Format mus be \"gettime <timezone>\"");
+                send(pClientIP, pClientPort, "Ungültiges Format. \"gettime <timezone>\"");
             }
 
         }

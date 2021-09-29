@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 public class ConsolePanel extends JFrame {
 
     private final JPanel contentPane;
-    private final JTextField textFieldIp, textFieldReciver, textFieldServerMessage, textFieldClientMessage;
+    private final JTextField textFieldIp, textFieldReceiver, textFieldServerMessage, textFieldClientMessage;
     private final JSpinner spinner;
     private final JButton btnStartServer, btnStartClient;
     private final TextArea consoleOutPut;
@@ -133,8 +133,8 @@ public class ConsolePanel extends JFrame {
                         }
                     } else {
                         try {
-                            server.send(textFieldIp.getText().split(":")[0], Integer.parseInt(textFieldReciver.getText().split(":")[1]), textFieldReciver.getText());
-                            System.out.println("[Server] Nachricht wurde an \""+textFieldReciver.getText()+"\" gesendet.");
+                            server.send(textFieldIp.getText().split(":")[0], Integer.parseInt(textFieldReceiver.getText().split(":")[1]), textFieldReceiver.getText());
+                            System.out.println("[Server] Nachricht wurde an \""+ textFieldReceiver.getText()+"\" gesendet.");
                         } catch (Exception ex) {
                             System.out.println("[Server] Nachricht konnte nicht verschickt werden: "+ex);
                         }
@@ -148,10 +148,10 @@ public class ConsolePanel extends JFrame {
         lblEmpfnger.setBounds(359, 116, 141, 14);
         contentPane.add(lblEmpfnger);
 
-        textFieldReciver = new JTextField();
-        textFieldReciver.setBounds(359, 141, 141, 20);
-        contentPane.add(textFieldReciver);
-        textFieldReciver.setColumns(10);
+        textFieldReceiver = new JTextField();
+        textFieldReceiver.setBounds(359, 141, 141, 20);
+        contentPane.add(textFieldReceiver);
+        textFieldReceiver.setColumns(10);
 
         sendToAll = new JCheckBox("An alle senden");
         sendToAll.setBounds(359, 172, 141, 23);

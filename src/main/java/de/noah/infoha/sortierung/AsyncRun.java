@@ -2,11 +2,9 @@ package de.noah.infoha.sortierung;
 
 public class AsyncRun {
 
-    private Thread thread;
-    private Runnable runnable;
+    private final Thread thread;
 
     public AsyncRun(Runnable runnable) {
-        this.runnable = runnable;
         thread = new Thread(runnable);
         start();
     }

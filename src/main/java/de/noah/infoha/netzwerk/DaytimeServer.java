@@ -2,15 +2,16 @@ package de.noah.infoha.netzwerk;
 
 import de.noah.infoha.abiturklassen.Server;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
 
 public class DaytimeServer extends Server {
 
 
-
     public DaytimeServer(int pPort) {
         super(pPort);
+
     }
 
     @Override
@@ -38,8 +39,10 @@ public class DaytimeServer extends Server {
     }
 
     private String getDisplayTime(TimeZone timeZone) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a z");
         final Calendar c = Calendar.getInstance(timeZone);
-        return c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":"+c.get(Calendar.SECOND);
+        formatter.setCalendar(c);
+        return formatter.format(c.getTime());
     }
 
 }

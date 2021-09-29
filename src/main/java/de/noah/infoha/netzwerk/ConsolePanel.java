@@ -160,7 +160,6 @@ public class ConsolePanel extends JFrame {
         System.setOut(new TextAreaPrintStream(consoleOutPut, System.out));
         System.setErr(new TextAreaPrintStream(consoleOutPut, System.err));
 
-
     }
 
 }

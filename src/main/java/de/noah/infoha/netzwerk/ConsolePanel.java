@@ -1,5 +1,7 @@
 package de.noah.infoha.netzwerk;
 
+import de.noah.infoha.extraklassen.AsyncRun;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.TextArea;
@@ -11,7 +13,7 @@ public class ConsolePanel extends JFrame {
     private final JPanel contentPane;
     private final JTextField textFieldIp, textFieldReceiver, textFieldServerMessage, textFieldClientMessage;
     private final JSpinner spinner;
-    private final JButton btnStartServer, btnStartClient;
+    private final JButton btnStartServer, btnStartClient, btnAusgabeLeeren;
     private final TextArea consoleOutPut;
     private final JCheckBox sendToAll;
 
@@ -22,7 +24,7 @@ public class ConsolePanel extends JFrame {
     public ConsolePanel() {
         super("Console Panel");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 597, 427);
+        setBounds(100, 100, 776, 491);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
@@ -51,7 +53,7 @@ public class ConsolePanel extends JFrame {
         contentPane.add(btnStartServer);
 
         consoleOutPut = new TextArea();
-        consoleOutPut.setBounds(10, 228, 561, 160);
+        consoleOutPut.setBounds(10, 228, 740, 214);
         consoleOutPut.setEditable(false);
         contentPane.add(consoleOutPut);
 
@@ -63,15 +65,17 @@ public class ConsolePanel extends JFrame {
                         System.out.println("Der Server muss zuerst gestartet werden.");
                         return;
                     }
-                    try {
-                        final String ip = textFieldIp.getText().split(":")[0];
-                        final int port = Integer.parseInt(textFieldIp.getText().split(":")[1]);
-                        client = new DaytimeClient(ip, port);
+                    new AsyncRun(() -> {
+                        try {
+                            final String ip = textFieldIp.getText().split(":")[0];
+                            final int port = Integer.parseInt(textFieldIp.getText().split(":")[1]);
+                            client = new DaytimeClient(ip, port);
 
-                        btnStartClient.setText("Stoppe Client");
-                    } catch (Exception ex) {
-                        System.out.println("[Client] Konnte Client nicht starten: "+ex);
-                    }
+                            btnStartClient.setText("Stoppe Client");
+                        } catch (Exception ex) {
+                            System.out.println("[Client] Konnte Client nicht starten: "+ex);
+                        }
+                    });
                 } else {
                     client.close();
                     btnStartClient.setText("Starte Client");
@@ -173,6 +177,13 @@ public class ConsolePanel extends JFrame {
         sendToAll = new JCheckBox("An alle senden");
         sendToAll.setBounds(359, 172, 141, 23);
         contentPane.add(sendToAll);
+
+
+        btnAusgabeLeeren = new JButton("Ausgabe leeren");
+        btnAusgabeLeeren.addActionListener(e -> consoleOutPut.setText(""));
+        btnAusgabeLeeren.setBounds(621, 199, 129, 23);
+        contentPane.add(btnAusgabeLeeren);
+
 
         System.setOut(new TextAreaPrintStream(consoleOutPut, System.out));
         System.setErr(new TextAreaPrintStream(consoleOutPut, System.err));

@@ -1,5 +1,7 @@
 package de.noah.infoha.sortierung;
 
+import de.noah.infoha.extraklassen.AsyncRun;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;

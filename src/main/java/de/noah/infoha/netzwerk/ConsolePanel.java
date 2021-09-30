@@ -13,7 +13,7 @@ public class ConsolePanel extends JFrame {
     private final JPanel contentPane;
     private final JTextField textFieldIp, textFieldReceiver, textFieldServerMessage, textFieldClientMessage;
     private final JSpinner spinner;
-    private final JButton btnStartServer, btnStartClient, btnAusgabeLeeren;
+    private final JButton btnStartServer, btnStartClient, btnAusgabeLeeren, btnServerMessage, btnClientSenden;
     private final TextArea consoleOutPut;
     private final JCheckBox sendToAll;
     private final List clientList;
@@ -117,7 +117,7 @@ public class ConsolePanel extends JFrame {
         lblNachricht.setBounds(198, 11, 141, 14);
         contentPane.add(lblNachricht);
 
-        JButton btnClientSenden = new JButton("Senden");
+        btnClientSenden = new JButton("Senden");
         btnClientSenden.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(client != null && client.isConnected()) {
@@ -141,7 +141,7 @@ public class ConsolePanel extends JFrame {
         textFieldServerMessage.setBounds(198, 141, 141, 20);
         contentPane.add(textFieldServerMessage);
 
-        JButton btnServerMessage = new JButton("Senden");
+        btnServerMessage = new JButton("Senden");
         btnServerMessage.setBounds(198, 172, 89, 23);
         btnServerMessage.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -166,9 +166,9 @@ public class ConsolePanel extends JFrame {
         });
         contentPane.add(btnServerMessage);
 
-        JLabel lblEmpfnger = new JLabel("Empf\u00E4nger (IP:Port)");
-        lblEmpfnger.setBounds(359, 116, 141, 14);
-        contentPane.add(lblEmpfnger);
+        JLabel lblEmpaefnger = new JLabel("Empfänger (IP:Port)");
+        lblEmpaefnger.setBounds(359, 116, 141, 14);
+        contentPane.add(lblEmpaefnger);
 
         textFieldReceiver = new JTextField();
         textFieldReceiver.setBounds(359, 141, 141, 20);

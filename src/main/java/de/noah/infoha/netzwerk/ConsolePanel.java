@@ -4,7 +4,7 @@ import de.noah.infoha.extraklassen.AsyncRun;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.TextArea;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -16,6 +16,7 @@ public class ConsolePanel extends JFrame {
     private final JButton btnStartServer, btnStartClient, btnAusgabeLeeren;
     private final TextArea consoleOutPut;
     private final JCheckBox sendToAll;
+    private final List clientList;
 
     private DaytimeServer server;
     private DaytimeClient client;
@@ -185,9 +186,20 @@ public class ConsolePanel extends JFrame {
         contentPane.add(btnAusgabeLeeren);
 
 
+        clientList = new List();
+        clientList.setBounds(581, 40, 169, 137);
+        contentPane.add(clientList);
+
+        JLabel lblClients = new JLabel("Clients:");
+        lblClients.setBounds(581, 20, 169, 14);
+        contentPane.add(lblClients);
+
         System.setOut(new TextAreaPrintStream(consoleOutPut, System.out));
         System.setErr(new TextAreaPrintStream(consoleOutPut, System.err));
 
     }
 
+    public List getClientList() {
+        return clientList;
+    }
 }

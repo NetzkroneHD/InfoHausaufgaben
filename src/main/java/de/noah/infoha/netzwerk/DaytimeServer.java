@@ -1,5 +1,6 @@
 package de.noah.infoha.netzwerk;
 
+import de.noah.infoha.Info;
 import de.noah.infoha.abiturklassen.Server;
 
 import java.text.SimpleDateFormat;
@@ -18,6 +19,9 @@ public class DaytimeServer extends Server {
     public void processNewConnection(String pClientIP, int pClientPort) {
         System.out.println("[Server] Client '"+pClientIP+":"+pClientPort+"' hat sich verbunden.");
         send(pClientIP, pClientPort, getDisplayTime(TimeZone.getTimeZone("GMT-8:00")));
+
+        Info.getConsolePanel().getClientList().add(pClientIP+":"+pClientPort);
+
     }
 
     @Override
@@ -36,6 +40,7 @@ public class DaytimeServer extends Server {
     @Override
     public void processClosingConnection(String pClientIP, int pClientPort) {
         System.out.println("[Server] Client '"+pClientIP+":"+pClientPort+"' hat die Verbindung unterbrochen.");
+        Info.getConsolePanel().getClientList().remove(pClientIP+":"+pClientPort);
     }
 
     private String getDisplayTime(TimeZone timeZone) {

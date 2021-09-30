@@ -11,6 +11,7 @@ public class Info {
         consolePanel = new ConsolePanel();
         consolePanel.setVisible(true);
 
+
     }
 
     public static ConsolePanel getConsolePanel() {

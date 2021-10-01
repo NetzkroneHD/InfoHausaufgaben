@@ -56,6 +56,7 @@ public class ClientPanel extends JFrame {
 
         textArea = new TextArea();
         textArea.setBounds(10, 141, 574, 198);
+        textArea.setEditable(false);
         contentPane.add(textArea);
 
     }

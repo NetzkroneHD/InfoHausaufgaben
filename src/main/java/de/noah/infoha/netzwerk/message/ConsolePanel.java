@@ -1,8 +1,6 @@
-package de.noah.infoha.netzwerk.netzwerk;
+package de.noah.infoha.netzwerk.message;
 
 import de.noah.infoha.extraklassen.AsyncRun;
-import de.noah.infoha.netzwerk.DaytimeClient;
-import de.noah.infoha.netzwerk.DaytimeServer;
 import de.noah.infoha.netzwerk.TextAreaPrintStream;
 
 import javax.swing.*;

@@ -1,4 +1,4 @@
-package de.noah.infoha.netzwerk.netzwerk;
+package de.noah.infoha.netzwerk.message;
 
 public class MessageMain {
 

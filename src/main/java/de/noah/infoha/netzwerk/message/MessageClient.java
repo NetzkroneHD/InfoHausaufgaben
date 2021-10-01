@@ -6,16 +6,11 @@ import java.awt.*;
 
 public class MessageClient extends Client {
 
-    private TextArea textArea;
-    private ClientPanel clientPanel;
+    private final ClientPanel clientPanel;
 
-    public MessageClient(String pServerIP, int pServerPort) {
+    public MessageClient(String pServerIP, int pServerPort, ClientPanel clientPanel) {
         super(pServerIP, pServerPort);
-    }
-
-    public void setClientPanel(ClientPanel clientPanel) {
         this.clientPanel = clientPanel;
-        this.textArea = clientPanel.getTextArea();
     }
 
     @Override
@@ -24,10 +19,20 @@ public class MessageClient extends Client {
             final String[] splitted = pMessage.split("-");
             clientPanel.setTitle("Client - "+splitted[1]);
             return;
+        } else if(pMessage.startsWith("clients-")) {
+            final String[] splitted = pMessage.replace("clients-", "").split(";");
+            clientPanel.getClientList().removeAll();
+            for(String client : splitted) {
+                if(!client.equalsIgnoreCase(clientPanel.getTitle().replace("Client - ", ""))) {
+                    clientPanel.getClientList().add(client);
+                }
+            }
+
+            return;
         }
         final Message msg = Message.fromJson(pMessage);
 
-        textArea.append("Nachricht empfangen:\n"+msg.toDisplayString());
+        clientPanel.getTextArea().append("Nachricht empfangen:\n"+msg.toDisplayString());
     }
 
     public void send(String clientIp, int clientPort, String msg) {

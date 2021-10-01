@@ -11,12 +11,12 @@ public class ClientPanel extends JFrame {
     private final JPanel contentPane;
     private final JTextField textFieldMessage;
     private final JTextField textFieldReceiver;
-    private final MessageClient messageClient;
+    private MessageClient messageClient;
     private final TextArea textArea;
+    private final List clientList;
 
-    public ClientPanel(MessageClient mc) {
+    public ClientPanel() {
         setTitle("Client - loading...");
-        this.messageClient = mc;
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setBounds(100, 100, 610, 388);
         contentPane = new JPanel();
@@ -54,15 +54,31 @@ public class ClientPanel extends JFrame {
         lblEmpfaengeripport.setBounds(227, 26, 144, 14);
         contentPane.add(lblEmpfaengeripport);
 
+        clientList = new List();
+        clientList.setBounds(440, 51, 144, 103);
+        contentPane.add(clientList);
+
+        JLabel lblClients = new JLabel("Clients:");
+        lblClients.setBounds(440, 26, 110, 14);
+        contentPane.add(lblClients);
+
         textArea = new TextArea();
-        textArea.setBounds(10, 141, 574, 198);
+        textArea.setBounds(10, 179, 574, 160);
         textArea.setEditable(false);
         contentPane.add(textArea);
 
     }
 
+    public void setMessageClient(MessageClient messageClient) {
+        this.messageClient = messageClient;
+    }
+
     public MessageClient getMessageClient() {
         return messageClient;
+    }
+
+    public List getClientList() {
+        return clientList;
     }
 
     public TextArea getTextArea() {

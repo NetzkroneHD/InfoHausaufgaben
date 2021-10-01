@@ -70,9 +70,9 @@ public class ConsolePanel extends JFrame {
                         try {
                             final String ip = textFieldIp.getText().split(":")[0];
                             final int port = Integer.parseInt(textFieldIp.getText().split(":")[1]);
-                            final MessageClient client = new MessageClient(ip, port);
-                            final ClientPanel cp = new ClientPanel(client);
-                            client.setClientPanel(cp);
+                            final ClientPanel cp = new ClientPanel();
+                            final MessageClient client = new MessageClient(ip, port, cp);
+                            cp.setMessageClient(client);
 
                             cp.setVisible(true);
 

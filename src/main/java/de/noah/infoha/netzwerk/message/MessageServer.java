@@ -34,7 +34,9 @@ public class MessageServer extends Server {
         System.out.println("[Server] Client '"+pClientIP+":"+pClientPort+"' hat eine Nachricht gesendet: \""+pMessage+"\"");
         final Message target = gson.fromJson(pMessage, Message.class);
         final Message src = new Message(pClientIP, pClientPort, target.getMessage());
-        send(target.getClientIP(), target.getClientPort(), src.toJson());
+        if(target.getClientIP().equalsIgnoreCase("all")) {
+            sendToAll(src.toJson());
+        } else send(target.getClientIP(), target.getClientPort(), src.toJson());
 
     }
 

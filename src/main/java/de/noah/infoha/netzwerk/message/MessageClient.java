@@ -22,6 +22,7 @@ public class MessageClient extends Client {
         } else if(pMessage.startsWith("clients-")) {
             final String[] splitted = pMessage.replace("clients-", "").split(";");
             clientPanel.getClientList().removeAll();
+            clientPanel.getClientList().add("all");
             for(String client : splitted) {
                 if(!client.equalsIgnoreCase(clientPanel.getTitle().replace("Client - ", ""))) {
                     clientPanel.getClientList().add(client);
@@ -31,7 +32,7 @@ public class MessageClient extends Client {
             return;
         }
         final Message msg = Message.fromJson(pMessage);
-
+        if((msg.getClientIP()+":"+msg.getClientPort()).equalsIgnoreCase(clientPanel.getTitle().replace("Client - ", ""))) return;
         clientPanel.getTextArea().append("Nachricht empfangen:\n"+msg.toDisplayString());
         clientPanel.toFront();
     }

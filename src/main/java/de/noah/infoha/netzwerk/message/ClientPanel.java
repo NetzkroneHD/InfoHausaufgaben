@@ -5,8 +5,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 public class ClientPanel extends JFrame {
 
@@ -29,9 +27,17 @@ public class ClientPanel extends JFrame {
         JButton btnSenden = new JButton("Senden");
         btnSenden.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                final String[] splited = textFieldReceiver.getText().split(":");
+                String ip;
+                int port = 0;
+                if(textFieldReceiver.getText().equalsIgnoreCase("all")) {
+                    ip = "all";
+                } else {
+                    final String[] splited = textFieldReceiver.getText().split(":");
+                    ip = splited[0];
+                    port = Integer.parseInt(splited[1]);
+                }
 
-                messageClient.send(splited[0], Integer.parseInt(splited[1]), textFieldMessage.getText());
+                messageClient.send(ip, port, textFieldMessage.getText());
 
             }
         });

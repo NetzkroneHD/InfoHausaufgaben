@@ -4,9 +4,8 @@ import com.google.gson.Gson;
 
 public class Message {
 
-    private final String clientIP;
+    private final String clientIP, message;
     private final int clientPort;
-    private final String message;
 
     public Message(String clientIP, int clientPort, String message) {
         this.clientIP = clientIP;

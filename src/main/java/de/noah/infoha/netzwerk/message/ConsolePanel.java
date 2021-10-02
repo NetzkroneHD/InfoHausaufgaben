@@ -8,6 +8,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 public class ConsolePanel extends JFrame {
 
@@ -163,6 +165,7 @@ public class ConsolePanel extends JFrame {
 
         clientList = new List();
         clientList.setBounds(581, 40, 169, 137);
+        clientList.addItemListener(e -> textFieldReceiver.setText(clientList.getSelectedItem()));
         contentPane.add(clientList);
 
         JLabel lblClients = new JLabel("Clients:");

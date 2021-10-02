@@ -33,6 +33,7 @@ public class MessageClient extends Client {
         final Message msg = Message.fromJson(pMessage);
 
         clientPanel.getTextArea().append("Nachricht empfangen:\n"+msg.toDisplayString());
+        clientPanel.toFront();
     }
 
     public void send(String clientIp, int clientPort, String msg) {

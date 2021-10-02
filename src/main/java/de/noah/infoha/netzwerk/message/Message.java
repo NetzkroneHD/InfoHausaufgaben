@@ -31,7 +31,7 @@ public class Message {
     }
 
     public String toDisplayString() {
-        return "Sender: "+clientIP+":"+clientPort+"\nNachricht: "+message;
+        return "("+clientIP+":"+clientPort+"): "+message;
     }
 
     public static Message fromJson(String json) {

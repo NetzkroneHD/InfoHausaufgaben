@@ -52,9 +52,9 @@ public class ClientPanel extends JFrame {
         contentPane.add(textFieldReceiver);
         textFieldReceiver.setColumns(10);
 
-        JLabel lblEmpfaengeripport = new JLabel("Empfänger (Ip:Port)");
-        lblEmpfaengeripport.setBounds(227, 26, 144, 14);
-        contentPane.add(lblEmpfaengeripport);
+        JLabel lblEmpfaenger = new JLabel("Empfänger (Ip:Port)");
+        lblEmpfaenger.setBounds(227, 26, 144, 14);
+        contentPane.add(lblEmpfaenger);
 
         clientList = new List();
         clientList.setBounds(440, 51, 144, 103);

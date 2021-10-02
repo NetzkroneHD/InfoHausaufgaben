@@ -2,8 +2,6 @@ package de.noah.infoha.netzwerk.message;
 
 import de.noah.infoha.abiturklassen.Client;
 
-import java.awt.*;
-
 public class MessageClient extends Client {
 
     private final ClientPanel clientPanel;

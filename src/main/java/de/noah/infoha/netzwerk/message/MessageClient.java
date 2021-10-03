@@ -31,7 +31,7 @@ public class MessageClient extends Client {
         }
         final Message msg = Message.fromJson(pMessage);
         if((msg.getClientIP()+":"+msg.getClientPort()).equalsIgnoreCase(clientPanel.getTitle().replace("Client - ", ""))) return;
-        clientPanel.getTextArea().append(msg.toDisplayString()+"\n");
+        clientPanel.getTextArea().append(msg+"\n");
         clientPanel.toFront();
     }
 

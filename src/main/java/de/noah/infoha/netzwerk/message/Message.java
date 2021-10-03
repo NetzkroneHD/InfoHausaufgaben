@@ -30,7 +30,8 @@ public class Message {
         return gson.toJson(this);
     }
 
-    public String toDisplayString() {
+    @Override
+    public String toString() {
         return "("+clientIP+":"+clientPort+"): "+message;
     }
 

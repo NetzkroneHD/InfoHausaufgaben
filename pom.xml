@@ -92,7 +92,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>de.noah.infoha.Info</mainClass>
+                            <mainClass>de.noah.infoha.netzwerk.DaytimeMain</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -105,7 +105,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>de.noah.infoha.Info</mainClass>
+                            <mainClass>de.noah.infoha.netzwerk.DaytimeMain</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

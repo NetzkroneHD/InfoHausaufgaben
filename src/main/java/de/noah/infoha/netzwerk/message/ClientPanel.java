@@ -29,6 +29,10 @@ public class ClientPanel extends JFrame {
         btnSenden.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(messageClient.isConnected()) {
+                    if(textFieldMessage.getText().equalsIgnoreCase("") || textFieldMessage.getText().replace(" ", "").equalsIgnoreCase("")) {
+                        textArea.append("Es muss eine richtige Nachricht angegeben.\n");
+                        return;
+                    }
                     String ip;
                     int port = 0;
                     if(textFieldReceiver.getText().equalsIgnoreCase("all")) {
@@ -77,9 +81,15 @@ public class ClientPanel extends JFrame {
         btnVerbindungTrennen = new JButton("Verbindung trennen");
         btnVerbindungTrennen.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                messageClient.close();
-                clientList.removeAll();
-                textArea.append("Verbindung wurde getrennt.\n");
+                if(btnVerbindungTrennen.getText().equalsIgnoreCase("Verbindung trennen")) {
+                    messageClient.close();
+                    clientList.removeAll();
+                    textArea.append("Verbindung wurde getrennt.\n");
+                    btnVerbindungTrennen.setText("Verbinden");
+                } else {
+                    messageClient = new MessageClient(messageClient.getServerIp(), messageClient.getServerPort(), messageClient.getClientPanel());
+                    btnVerbindungTrennen.setText("Verbindung trennen");
+                }
 
             }
         });

@@ -5,10 +5,14 @@ import de.noah.infoha.abiturklassen.Client;
 public class MessageClient extends Client {
 
     private final ClientPanel clientPanel;
+    private final String serverIp;
+    private final int serverPort;
 
     public MessageClient(String pServerIP, int pServerPort, ClientPanel clientPanel) {
         super(pServerIP, pServerPort);
         this.clientPanel = clientPanel;
+        this.serverIp = pServerIP;
+        this.serverPort = pServerPort;
     }
 
     @Override
@@ -43,4 +47,15 @@ public class MessageClient extends Client {
         send(message.toJson());
     }
 
+    public int getServerPort() {
+        return serverPort;
+    }
+
+    public String getServerIp() {
+        return serverIp;
+    }
+
+    public ClientPanel getClientPanel() {
+        return clientPanel;
+    }
 }

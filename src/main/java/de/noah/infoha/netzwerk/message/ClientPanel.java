@@ -14,6 +14,7 @@ public class ClientPanel extends JFrame {
     private MessageClient messageClient;
     private final TextArea textArea;
     private final List clientList;
+    private final JButton btnSenden, btnVerbindungTrennen;
 
     public ClientPanel() {
         setTitle("Client - loading...");
@@ -24,20 +25,22 @@ public class ClientPanel extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        JButton btnSenden = new JButton("Senden");
+        btnSenden = new JButton("Senden");
         btnSenden.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String ip;
-                int port = 0;
-                if(textFieldReceiver.getText().equalsIgnoreCase("all")) {
-                    ip = "all";
-                } else {
-                    final String[] splited = textFieldReceiver.getText().split(":");
-                    ip = splited[0];
-                    port = Integer.parseInt(splited[1]);
-                }
+                if(messageClient.isConnected()) {
+                    String ip;
+                    int port = 0;
+                    if(textFieldReceiver.getText().equalsIgnoreCase("all")) {
+                        ip = "all";
+                    } else {
+                        final String[] splited = textFieldReceiver.getText().split(":");
+                        ip = splited[0];
+                        port = Integer.parseInt(splited[1]);
+                    }
 
-                messageClient.send(ip, port, textFieldMessage.getText());
+                    messageClient.send(ip, port, textFieldMessage.getText());
+                } else textArea.append("Der Client ist nicht verbunden.\n");
 
             }
         });
@@ -70,6 +73,18 @@ public class ClientPanel extends JFrame {
         JLabel lblClients = new JLabel("Clients:");
         lblClients.setBounds(440, 26, 110, 14);
         contentPane.add(lblClients);
+
+        btnVerbindungTrennen = new JButton("Verbindung trennen");
+        btnVerbindungTrennen.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                messageClient.close();
+                clientList.removeAll();
+                textArea.append("Verbindung wurde getrennt.\n");
+
+            }
+        });
+        btnVerbindungTrennen.setBounds(10, 116, 135, 23);
+        contentPane.add(btnVerbindungTrennen);
 
         textArea = new TextArea();
         textArea.setBounds(10, 179, 574, 160);

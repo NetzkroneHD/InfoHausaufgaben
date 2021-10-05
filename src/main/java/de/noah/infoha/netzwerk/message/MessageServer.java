@@ -45,6 +45,7 @@ public class MessageServer extends Server {
         System.out.println("[Server] Client '"+pClientIP+":"+pClientPort+"' hat die Verbindung unterbrochen.");
         MessageMain.getConsolePanel().getClientList().remove(pClientIP+":"+pClientPort);
         clients.remove(pClientIP+":"+pClientPort);
+        sendToAll("clients-"+(clientListToString()));
     }
 
     private String clientListToString() {

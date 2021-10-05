@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Caesar extends Verschluesselung {
 
-    private int verschoben;
+    private final int verschoben;
 
     public Caesar(int verschoben) {
         this.verschoben = verschoben;

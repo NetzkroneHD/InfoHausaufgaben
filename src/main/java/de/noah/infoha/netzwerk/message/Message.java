@@ -26,8 +26,7 @@ public class Message {
     }
 
     public String toJson() {
-        final Gson gson = new Gson();
-        return gson.toJson(this);
+        return new Gson().toJson(this);
     }
 
     @Override

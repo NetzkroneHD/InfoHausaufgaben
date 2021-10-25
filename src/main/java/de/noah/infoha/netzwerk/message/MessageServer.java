@@ -32,12 +32,27 @@ public class MessageServer extends Server {
     @Override
     public void processMessage(String pClientIP, int pClientPort, String pMessage) {
         System.out.println("[Server] Client '"+pClientIP+":"+pClientPort+"' hat eine Nachricht gesendet: \""+pMessage+"\"");
-        final Message target = gson.fromJson(pMessage, Message.class);
-        final Message src = new Message(pClientIP, pClientPort, target.getMessage());
-        if(target.getClientIP().equalsIgnoreCase("all")) {
-            sendToAll(src.toJson());
-        } else send(target.getClientIP(), target.getClientPort(), src.toJson());
+        final String[] args = pMessage.split("-");
+        if(args[0].equalsIgnoreCase("message")) {
+            final Message target = gson.fromJson(pMessage, Message.class);
+            final Message src = new Message(pClientIP, pClientPort, target.getMessage());
+            if(target.getClientIP().equalsIgnoreCase("all")) {
+                sendToAll("message-"+src.toJson());
+            } else send(target.getClientIP(), target.getClientPort(), "message-"+src.toJson());
+        }
 
+
+    }
+
+    @Override
+    public void processMessage(String pClientIP, int pClientPort, Object pObject) {
+        if(pObject instanceof DataTransfer) {
+            final DataTransfer dt = (DataTransfer) pObject;
+            if(dt.getClientIp().equalsIgnoreCase("all")) {
+                sendToAll(new DataTransfer(pClientIP, pClientPort, dt.getValue()));
+            } else send(dt.getClientIp(), dt.getClientPort(), new DataTransfer(pClientIP, pClientPort, dt.getValue()));
+
+        }
     }
 
     @Override

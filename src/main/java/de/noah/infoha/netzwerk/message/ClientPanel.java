@@ -14,7 +14,8 @@ public class ClientPanel extends JFrame {
     private MessageClient messageClient;
     private final TextArea textArea;
     private final List clientList;
-    private final JButton btnSenden, btnVerbindungTrennen;
+    private final JButton btnSenden, btnVerbindungTrennen, btnVideoAktivieren;
+    private WebcamManager webcamManager;
 
     public ClientPanel() {
         setTitle("Client - loading...");
@@ -101,6 +102,24 @@ public class ClientPanel extends JFrame {
         textArea.setEditable(false);
         contentPane.add(textArea);
 
+        btnVideoAktivieren = new JButton("Video aktivieren");
+        btnVideoAktivieren.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(messageClient.isConnected()) {
+                    if(btnVideoAktivieren.getText().equalsIgnoreCase("Video aktivieren")) {
+                        webcamManager = new WebcamManager(messageClient);
+                        btnVideoAktivieren.setText("Video deaktivieren");
+                    } else {
+                        webcamManager.stop();
+                        webcamManager = null;
+                        btnVideoAktivieren.setText("Video aktivieren");
+                    }
+                } else textArea.append("Der Client ist nicht verbunden.\n");
+            }
+        });
+        btnVideoAktivieren.setBounds(227, 116, 144, 23);
+        contentPane.add(btnVideoAktivieren);
+
     }
 
     public void setMessageClient(MessageClient messageClient) {
@@ -117,5 +136,9 @@ public class ClientPanel extends JFrame {
 
     public TextArea getTextArea() {
         return textArea;
+    }
+
+    public WebcamManager getWebcamManager() {
+        return webcamManager;
     }
 }

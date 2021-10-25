@@ -2,7 +2,6 @@ package de.noah.infoha.netzwerk.message;
 
 import de.noah.infoha.abiturklassen.Client;
 
-import java.awt.*;
 
 public class MessageClient extends Client {
 
@@ -19,7 +18,7 @@ public class MessageClient extends Client {
 
     @Override
     public void processMessage(String pMessage) {
-        final String[] args = pMessage.split("-");
+        final String[] args = pMessage.split(MessageMain.COMMAND_SEPARATOR);
         if(args[0].equalsIgnoreCase("data")) {
             clientPanel.setTitle("Client - "+args[1]);
             return;
@@ -34,23 +33,14 @@ public class MessageClient extends Client {
             }
 
             return;
-        } else if(args[0].equalsIgnoreCase("message-")) {
+        } else if(args[0].equalsIgnoreCase("message")) {
             final Message msg = Message.fromJson(args[1]);
             if((msg.getClientIP()+":"+msg.getClientPort()).equalsIgnoreCase(clientPanel.getTitle().replace("Client - ", ""))) return;
             clientPanel.getTextArea().append(msg+"\n");
             clientPanel.toFront();
-        }
-    }
-
-    @Override
-    public void processMessage(Object pObject) {
-        if(pObject instanceof DataTransfer) {
-            final DataTransfer dataTransfer = (DataTransfer) pObject;
-            if(dataTransfer.getValue() instanceof Image) {
-                if(clientPanel.getWebcamManager() != null) {
-                    clientPanel.getWebcamManager().receiveImage(dataTransfer.getClientIp(), dataTransfer.getClientPort(), (Image) dataTransfer.getValue());
-                }
-            }
+        } else if(args[0].equalsIgnoreCase("datatransfer")) {
+            final DataTransfer dt = DataTransfer.fromJson(args[1]);
+            clientPanel.getTextArea().append("Daten Transfer von "+dt.getClientIp()+":"+dt.getClientPort()+" erhalten: "+dt.getValue()+"\n");
         }
     }
 
@@ -63,12 +53,12 @@ public class MessageClient extends Client {
     }
 
     public void send(DataTransfer dataTransfer) {
-        send((Object) dataTransfer);
+        send("datatransfer"+MessageMain.COMMAND_SEPARATOR+dataTransfer.toJson());
     }
 
 
     public void send(Message message) {
-        send("message-"+message.toJson());
+        send("message"+MessageMain.COMMAND_SEPARATOR+message.toJson());
     }
 
     public int getServerPort() {

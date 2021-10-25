@@ -37,11 +37,6 @@ public class DaytimeServer extends Server {
     }
 
     @Override
-    public void processMessage(String pClientIP, int pClientPort, Object pObject) {
-
-    }
-
-    @Override
     public void processClosingConnection(String pClientIP, int pClientPort) {
         System.out.println("[Server] Client '"+pClientIP+":"+pClientPort+"' hat die Verbindung unterbrochen.");
         DaytimeMain.getConsolePanel().getClientList().remove(pClientIP+":"+pClientPort);

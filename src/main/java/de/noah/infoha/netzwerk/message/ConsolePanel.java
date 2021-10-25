@@ -173,8 +173,8 @@ public class ConsolePanel extends JFrame {
         textFieldIp.setText("127.0.0.1:25565");
         spinner.setValue(25565);
 
-        //System.setOut(new TextAreaPrintStream(consoleOutPut, System.out));
-        //System.setErr(new TextAreaPrintStream(consoleOutPut, System.err));
+        System.setOut(new TextAreaPrintStream(consoleOutPut, System.out));
+        System.setErr(new TextAreaPrintStream(consoleOutPut, System.err));
 
     }
 

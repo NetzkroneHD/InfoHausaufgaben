@@ -37,7 +37,7 @@ public class WebcamManager {
                     e.printStackTrace();
                 }
             }
-        },0, 150);
+        },0, 500);
     }
 
     public void stop() {

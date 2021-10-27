@@ -105,16 +105,20 @@ public class ClientPanel extends JFrame {
         btnVideoAktivieren = new JButton("Video aktivieren");
         btnVideoAktivieren.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(messageClient.isConnected()) {
-                    if(btnVideoAktivieren.getText().equalsIgnoreCase("Video aktivieren")) {
-                        webcamManager = new WebcamManager(messageClient);
-                        btnVideoAktivieren.setText("Video deaktivieren");
-                    } else {
+                if(btnVideoAktivieren.getText().equalsIgnoreCase("Video deaktivieren")) {
+                    if(webcamManager != null) {
                         webcamManager.stop();
                         webcamManager = null;
                         btnVideoAktivieren.setText("Video aktivieren");
                     }
-                } else textArea.append("Der Client ist nicht verbunden.\n");
+                } else {
+                    if(messageClient.isConnected()) {
+                        if(btnVideoAktivieren.getText().equalsIgnoreCase("Video aktivieren")) {
+                            webcamManager = new WebcamManager(messageClient);
+                            btnVideoAktivieren.setText("Video deaktivieren");
+                        }
+                    } else textArea.append("Der Client ist nicht verbunden.\n");
+                }
             }
         });
         btnVideoAktivieren.setBounds(227, 116, 144, 23);

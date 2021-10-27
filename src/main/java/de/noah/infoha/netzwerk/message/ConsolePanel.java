@@ -62,9 +62,11 @@ public class ConsolePanel extends JFrame {
         btnStartClient.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(btnStartClient.getText().equalsIgnoreCase("Starte Client")) {
-                    if(server == null || !server.isOpen()) {
-                        System.out.println("Der Server muss zuerst gestartet werden.");
-                        return;
+                    if(textFieldIp.getText().contains("127.0.0.1")) {
+                        if(server == null || !server.isOpen()) {
+                            System.out.println("Der Server muss zuerst gestartet werden.");
+                            return;
+                        }
                     }
                     new AsyncRun(() -> {
                         try {
@@ -170,7 +172,7 @@ public class ConsolePanel extends JFrame {
         lblClients.setBounds(581, 20, 169, 14);
         contentPane.add(lblClients);
 
-        textFieldIp.setText("127.0.0.1:25565");
+        textFieldIp.setText("2.205.200.93:25565");
         spinner.setValue(25565);
 
         System.setOut(new TextAreaPrintStream(consoleOutPut, System.out));

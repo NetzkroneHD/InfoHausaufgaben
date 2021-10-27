@@ -53,6 +53,7 @@ public class MessageClient extends Client {
                 if(clientPanel.getWebcamManager() != null) {
                     if(!(dt.getClientIp().equalsIgnoreCase(getClientIp()) && dt.getClientPort() == getClientPort())) {
                         clientPanel.getWebcamManager().receiveImage(dt.getClientIp(), dt.getClientPort(), (ImageIcon) dt.getValue());
+
                     }
                 }
             }

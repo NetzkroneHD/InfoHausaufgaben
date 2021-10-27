@@ -1,10 +1,14 @@
 package de.noah.infoha.netzwerk.message;
 
+import de.noah.infoha.extraklassen.AsyncRun;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 public class ClientPanel extends JFrame {
 
@@ -45,6 +49,7 @@ public class ClientPanel extends JFrame {
                     }
 
                     messageClient.send(ip, port, textFieldMessage.getText());
+                    textArea.append("(Du): "+textFieldMessage.getText()+"\n");
                 } else textArea.append("Der Client ist nicht verbunden.\n");
 
             }
@@ -72,7 +77,21 @@ public class ClientPanel extends JFrame {
 
         clientList = new List();
         clientList.setBounds(440, 51, 144, 103);
-        clientList.addItemListener(e -> textFieldReceiver.setText(clientList.getSelectedItem()));
+        clientList.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                textFieldReceiver.setText(clientList.getSelectedItem());
+                if(webcamManager != null) {
+                    if(clientList.getSelectedItem().equalsIgnoreCase("all")) {
+                        webcamManager.setReceiverClientIp("all");
+                    } else {
+                        webcamManager.setReceiverClientIp(clientList.getSelectedItem().split(":")[0]);
+                        webcamManager.setReceiverClientPort(Integer.parseInt(clientList.getSelectedItem().split(":")[1]));
+                    }
+                }
+            }
+        });
+
         contentPane.add(clientList);
 
         JLabel lblClients = new JLabel("Clients:");
@@ -114,8 +133,10 @@ public class ClientPanel extends JFrame {
                 } else {
                     if(messageClient.isConnected()) {
                         if(btnVideoAktivieren.getText().equalsIgnoreCase("Video aktivieren")) {
-                            webcamManager = new WebcamManager(messageClient);
-                            btnVideoAktivieren.setText("Video deaktivieren");
+                            new AsyncRun(() -> {
+                                webcamManager = new WebcamManager(messageClient);
+                                btnVideoAktivieren.setText("Video deaktivieren");
+                            });
                         }
                     } else textArea.append("Der Client ist nicht verbunden.\n");
                 }

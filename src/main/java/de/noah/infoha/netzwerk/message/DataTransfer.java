@@ -2,7 +2,9 @@ package de.noah.infoha.netzwerk.message;
 
 import com.google.gson.Gson;
 
-public class DataTransfer {
+import java.io.Serializable;
+
+public class DataTransfer implements Serializable {
 
     private final String clientIp;
     private final int clientPort;

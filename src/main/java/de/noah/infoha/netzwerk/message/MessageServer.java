@@ -48,7 +48,17 @@ public class MessageServer extends Server {
             } else send(dt.getClientIp(), dt.getClientPort(), "datatransfer"+MessageMain.COMMAND_SEPARATOR+new DataTransfer(pClientIP, pClientPort, dt.getValue()).toJson());
         }
 
+    }
 
+    @Override
+    public void processMessage(String pClientIP, int pClientPort, Object pMessage) {
+        System.out.println("[Server] Client '"+pClientIP+":"+pClientPort+"' hat Daten gesendet: \""+pMessage+"\"");
+        if(pMessage instanceof DataTransfer) {
+            final DataTransfer dt = (DataTransfer) pMessage;
+            if(dt.getClientIp().equalsIgnoreCase("all")) {
+                sendToAll(new DataTransfer(pClientIP, pClientPort, dt.getValue()));
+            } else send(dt.getClientIp(), dt.getClientPort(), new DataTransfer(pClientIP, pClientPort, dt.getValue()));
+        }
     }
 
     @Override

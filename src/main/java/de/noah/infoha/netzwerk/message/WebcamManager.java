@@ -2,8 +2,10 @@ package de.noah.infoha.netzwerk.message;
 
 import com.github.sarxos.webcam.Webcam;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import java.util.Timer;
 
 public class WebcamManager {
 
@@ -19,6 +21,7 @@ public class WebcamManager {
         webcam.open(true);
         timer = new Timer();
         ownVideo = new VideoPanel(client.getClientIp(), client.getClientPort());
+        ownVideo.setTitle("Deine Webcam");
         videos = new HashMap<>();
         startRendering();
     }
@@ -28,8 +31,8 @@ public class WebcamManager {
             @Override
             public void run() {
                 try {
-                    ownVideo.updateImage(webcam.getImage());
-                    client.send(new DataTransfer("all", 0, webcam.getImage()));
+                    ownVideo.updateImage(new ImageIcon(webcam.getImage()));
+                    client.send(new DataTransfer("all", 0, new ImageIcon(webcam.getImage())));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -45,7 +48,7 @@ public class WebcamManager {
         }
     }
 
-    public void receiveImage(String clientIp, int clientPort, Image image) {
+    public void receiveImage(String clientIp, int clientPort, ImageIcon image) {
         System.out.println("[Client] Erhalte Video Bild: "+clientIp+":"+clientPort);
         if(!videos.containsKey(clientIp+":"+clientPort)) {
             videos.put(clientIp+":"+clientPort, new VideoPanel(clientIp, clientPort));

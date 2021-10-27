@@ -12,4 +12,9 @@ public class DaytimeClient extends Client {
     public void processMessage(String pMessage) {
         System.out.println("[Client] Nachricht von Server empfangen: "+pMessage);
     }
+
+    @Override
+    public void processMessage(Object pMessage) {
+
+    }
 }

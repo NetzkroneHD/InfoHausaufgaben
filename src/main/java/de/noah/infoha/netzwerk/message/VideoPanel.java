@@ -30,8 +30,8 @@ public class VideoPanel extends JFrame {
         setVisible(true);
     }
 
-    public void updateImage(Image image) {
-        lblVideo.setIcon(new ImageIcon(image));
+    public void updateImage(ImageIcon image) {
+        lblVideo.setIcon(image);
     }
 
     public int getClientPort() {

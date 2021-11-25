@@ -4,15 +4,13 @@ import de.noah.infoha.abiturklassen.ComparableContent;
 
 public class Person implements ComparableContent<Person> {
 
-    private String name;
-    private int alter;
+    private final String name;
+    private final int alter;
 
     public Person(String name, int alter) {
         this.name = name;
         this.alter = alter;
     }
-
-
 
     @Override
     public boolean isGreater(Person pContent) {

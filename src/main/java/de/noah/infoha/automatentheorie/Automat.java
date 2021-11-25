@@ -3,6 +3,8 @@ package de.noah.infoha.automatentheorie;
 import de.noah.infoha.abiturklassen.BinarySearchTree;
 import de.noah.infoha.abiturklassen.Traversierung;
 
+import java.util.Random;
+
 public class Automat {
 
 
@@ -12,9 +14,22 @@ public class Automat {
     public Automat() {
         alleEingaben = new BinarySearchTree<>();
 
+        for(int i = 0; i < 20; i++) {
+            String eingabe = "";
+            for(int j = 0; j < 10; j++) {
+                eingabe = new Random().nextInt(2)+"";
+            }
+
+            automat("Per"+new Random().nextInt(10), eingabe);
+        }
+
+        gebeAus();
+
     }
 
-
+    public static void main(String[] args) {
+        new Automat();
+    }
 
     public void gebeAus() {
         String ausgabe = new Traversierung().traversiereBaum(alleEingaben, Traversierung.Type.INORDER);
@@ -80,7 +95,7 @@ public class Automat {
 
         }
 
-        alleEingaben.insert(new Person(nameDerPerson, Integer.parseInt(eingabeAlter)));
+        if(z == 4) alleEingaben.insert(new Person(nameDerPerson, Integer.parseInt(eingabeAlter)));
 
 
     }

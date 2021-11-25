@@ -37,4 +37,12 @@ public class Person implements ComparableContent<Person> {
     public int getAlter() {
         return alter;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", alter=" + alter +
+                '}';
+    }
 }

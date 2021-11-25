@@ -172,7 +172,7 @@ public class ConsolePanel extends JFrame {
         lblClients.setBounds(581, 20, 169, 14);
         contentPane.add(lblClients);
 
-        textFieldIp.setText("2.205.200.93:25565");
+        textFieldIp.setText("127.0.0.1:25565");
         spinner.setValue(25565);
 
         System.setOut(new TextAreaPrintStream(consoleOutPut, System.out));

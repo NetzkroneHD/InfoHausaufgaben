@@ -12,6 +12,7 @@ public class VideoPanel extends JFrame {
     private final JLabel lblVideo;
     private final String clientIp;
     private final int clientPort;
+    private ImageIcon imageIcon;
 
     public VideoPanel(String clientIp, int clientPort) {
         super(clientIp+":"+clientPort);
@@ -26,12 +27,19 @@ public class VideoPanel extends JFrame {
 
         lblVideo = new JLabel("Video");
 
+
         contentPane.add(lblVideo, BorderLayout.CENTER);
         setVisible(true);
     }
 
     public void updateImage(ImageIcon image) {
         lblVideo.setIcon(image);
+        this.imageIcon = image;
+        Dimension size = new Dimension(image.getIconWidth(), image.getIconHeight());
+        setPreferredSize(size);
+        setMinimumSize(size);
+        setMaximumSize(size);
+        setSize(size);
     }
 
     public int getClientPort() {
@@ -50,4 +58,8 @@ public class VideoPanel extends JFrame {
         return clientPort == that.clientPort && Objects.equals(clientIp, that.clientIp);
     }
 
+    @Override
+    public void paintComponents(Graphics g) {
+        g.drawImage(imageIcon.getImage(), 0, 0, null);
+    }
 }

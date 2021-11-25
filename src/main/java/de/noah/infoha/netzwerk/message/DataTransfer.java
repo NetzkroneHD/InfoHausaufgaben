@@ -1,5 +1,6 @@
 package de.noah.infoha.netzwerk.message;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
@@ -14,6 +15,8 @@ public class DataTransfer implements Serializable {
         this.clientIp = clientIp;
         this.clientPort = clientPort;
         this.value = value;
+        Preconditions.checkState((value instanceof Serializable), "Object 'value' has to be subclass of Serializable");
+
     }
 
     public String getClientIp() {

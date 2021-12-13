@@ -63,7 +63,6 @@ public class SortierGUI extends JFrame {
 		choice.add("InsertionSort");
 		choice.add("BubbleSort");
 		choice.add("SelectionSort");
-		
 		contentPane.add(choice);
 
 		JButton btnSortieren = new JButton("Sortieren");
@@ -85,21 +84,21 @@ public class SortierGUI extends JFrame {
 					Sort sort;
 
 					switch (choice.getSelectedItem()) {
-					case "BubbleSort":
-						sort = new BubbleSort();
-						break;
-					case "InsertionSort":
-						sort = new InsertionSort();
-						break;
-					case "SelectionSort":
-						sort = new SelectionSort();
-						break;
-					case "QuickSort":
-						sort = new QuickSort(0, toSort.length-1);
-						break;
-					default:
-						System.out.println("Bitte wähle eine Methode aus.");
-						return;
+						case "BubbleSort":
+							sort = new BubbleSort();
+							break;
+						case "InsertionSort":
+							sort = new InsertionSort();
+							break;
+						case "SelectionSort":
+							sort = new SelectionSort();
+							break;
+						case "QuickSort":
+							sort = new QuickSort(0, toSort.length-1);
+							break;
+						default:
+							System.out.println("Bitte wähle eine Methode aus.");
+							return;
 					}
 
 					textArea.setText("Sortiere...");
@@ -134,7 +133,7 @@ public class SortierGUI extends JFrame {
 		lblAusgabe.setBounds(10, 18, 270, 14);
 		contentPane.add(lblAusgabe);
 
-		JButton btnRandom = new JButton("Zufüllige Zahlen");
+		JButton btnRandom = new JButton("Zufällige Zahlen");
 		btnRandom.addActionListener(e -> {
 			final Random random = new Random();
 			final int[] intArray = new int[random.nextInt(100000)];

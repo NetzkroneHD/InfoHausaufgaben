@@ -18,21 +18,21 @@ public class TraversierungExample implements ComparableContent<TraversierungExam
 
     @Override
     public boolean isGreater(TraversierungExample pContent) {
-        return (example > pContent.getExample());
-    }
-
-    @Override
-    public boolean isEqual(TraversierungExample pContent) {
         return (example < pContent.getExample());
     }
 
     @Override
-    public boolean isLess(TraversierungExample pContent) {
+    public boolean isEqual(TraversierungExample pContent) {
         return (example == pContent.getExample());
     }
 
     @Override
+    public boolean isLess(TraversierungExample pContent) {
+        return (example > pContent.getExample());
+    }
+
+    @Override
     public String toString() {
-        return "["+example+"]";
+        return example+"";
     }
 }

@@ -21,7 +21,7 @@ import java.awt.image.*;
 
 public class BaumZeichner extends Frame {
 
-    BinaryTree _baum;
+    BinaryTree<?> _baum;
     BufferedImage img;
     Graphics g;
     int _dy;              //  Abstand der Baumebenen
@@ -52,14 +52,14 @@ public class BaumZeichner extends Frame {
 
     }
 
-    public void paint( Graphics g )   {
+    public void paint( Graphics g ) {
         super.paint(g);
         g.drawImage(img, 0,25, this);
     }
 
 
-    public void zeigeBaum()
-    {  if (_baum == null)  return;
+    public void zeigeBaum() {
+        if (_baum == null)  return;
 
         Dimension x = getSize();
         img = new BufferedImage( x.width, x.height-25, BufferedImage.TYPE_INT_RGB );
@@ -67,32 +67,32 @@ public class BaumZeichner extends Frame {
         g.setColor(new Color(200,200,200));
         loesche(g, x.width, x.height);
         _dy = (x.height-25) / (tiefe(_baum)+1);
-        zeichneInorder(0,x.width,50, _baum); 
+        zeichneInorder(0,x.width,50, _baum);
         this.repaint();
     }
 
-    public void zeigeBaum(BinaryTree pBaum)
-    {   _baum = pBaum;
+    public void zeigeBaum(BinaryTree<?> pBaum) {
+        _baum = pBaum;
         zeigeBaum();
     }
-    
-    public void loesche(Graphics g, int x, int y)
-    {   g.setColor(new Color(220,220,230));
+
+    public void loesche(Graphics g, int x, int y) {
+        g.setColor(new Color(220,220,230));
         g.fillRect(0,0, x, y);
         g.setColor(new Color(0,0,250));
         g.setFont(new Font("Arial", Font.BOLD,12));
     }
 
-    private void zeichneInorder(int links, int rechts, int y, BinaryTree baum)
-    {  if (baum.isEmpty()) return;
+    private void zeichneInorder(int links, int rechts, int y, BinaryTree baum) {
+        if (baum.isEmpty()) return;
         int mitte = (links + rechts) / 2;
         zeichneInorder(links, mitte,y+_dy,baum.getLeftTree());
         zeigeKnoten(links, rechts, y, baum.getContent().toString());
         zeichneInorder(mitte, rechts,y+_dy,baum.getRightTree());
     }
 
-    private void zeigeKnoten(int links, int rechts, int y, String inhalt)
-    {   String hilf = inhalt;
+    private void zeigeKnoten(int links, int rechts, int y, String inhalt) {
+        String hilf = inhalt;
         int mitte = (links + rechts) / 2;
         double abstand = Math.sqrt((mitte-links)*(mitte-links)+_dy*_dy);
         int ddx = (int) ((mitte-links)/abstand*10);
@@ -100,7 +100,7 @@ public class BaumZeichner extends Frame {
         g.setColor(new Color(0,0,0));
         g.drawLine(mitte-ddx,y+ddy, (links+mitte) / 2 + ddx, y + _dy-ddy);
         g.drawLine(mitte+ddx,y+ddy, (mitte+rechts) /2 - ddx, y + _dy-ddy);
-        
+
         hilf = inhalt.substring(0, inhalt.indexOf(' '));
         if (suchName.equals(hilf))
              g.setColor(new Color(255,200,200));
@@ -112,23 +112,28 @@ public class BaumZeichner extends Frame {
         g.drawString(inhalt,mitte-3,y+5);
     }
 
-    public int tiefe(BinaryTree baum)
-    {   if (baum.isEmpty()) return 0;
+    public int tiefe(BinaryTree baum) {
+        if (baum.isEmpty()) return 0;
         int links = tiefe(baum.getLeftTree()) + 1;
         int rechts = tiefe(baum.getRightTree()) + 1;
         if (links > rechts) return links;
         else return rechts;
     }
-    
-    
-    public void warte(int dur)
-    {  try { Thread.sleep(dur);
+
+
+    public void warte(int dur){
+        try {
+            Thread.sleep(dur);
         } catch(Exception e) {
-        } finally {  }
+
+        } finally {
+
+        }
     }
 
-    public void markiere(String name)
-    {  suchName = name; }
+    public void markiere(String name) {
+        suchName = name;
+    }
 
 
 }

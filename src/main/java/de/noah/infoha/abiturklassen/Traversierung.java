@@ -129,8 +129,8 @@ public class Traversierung {
         final Traversierung tv = new Traversierung();
         final Random r = new Random();
 
-        for(int i = 0; i < 30000; i++) {
-            tv.fuegeEin(bt, new TraversierungExample(r.nextInt(2)));
+        for(int i = 0; i < 300; i++) {
+            tv.fuegeEin(bt, new TraversierungExample(r.nextInt(5)));
             System.out.println(i);
         }
 

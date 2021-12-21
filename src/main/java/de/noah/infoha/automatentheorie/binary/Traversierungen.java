@@ -10,16 +10,13 @@ public class Traversierungen {
     public enum Type {
         INORDER,
         POSTORDER,
-        PREORDER;
+        PREORDER
     }
 
     String baumString;
 
     public Traversierungen() {
         baumString = "";
-
-
-
 
     }
 

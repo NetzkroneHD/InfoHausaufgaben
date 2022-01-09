@@ -20,9 +20,7 @@ public class Vector3D implements Cloneable {
      */
     private static final double epsilon = 0.000001;
 
-    private double x;
-    private double y;
-    private double z;
+    private double x, y, z;
 
     /**
      * Construct the vector with all components as 0.
@@ -405,10 +403,10 @@ public class Vector3D implements Cloneable {
     }
 
     /**
-     * Rotates the vector around the x axis.
+     * Rotates the vector around the x-axis.
      * <p>
      * This piece of math is based on the standard rotation matrix for vectors
-     * in three dimensional space. This matrix can be found here:
+     * in three-dimensional space. This matrix can be found here:
      * <a href="https://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">Rotation
      * Matrix</a>.
      *
@@ -427,10 +425,10 @@ public class Vector3D implements Cloneable {
     }
 
     /**
-     * Rotates the vector around the y axis.
+     * Rotates the vector around the y-axis.
      * <p>
      * This piece of math is based on the standard rotation matrix for vectors
-     * in three dimensional space. This matrix can be found here:
+     * in three-dimensional space. This matrix can be found here:
      * <a href="https://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">Rotation
      * Matrix</a>.
      *
@@ -759,9 +757,13 @@ public class Vector3D implements Cloneable {
      * Returns this vector's components as x,y,z.
      */
     @Override
-   	public String toString() {
-   		return "Vector3D [x=" + x + ", y=" + y + ", z=" + z + "]";
-   	}
+    public String toString() {
+        return "Vector3D{" +
+                "x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                '}';
+    }
 
     /**
      * Check if each component of this Vector is finite.
@@ -862,10 +864,9 @@ public class Vector3D implements Cloneable {
 		}
 		try {
 			return Integer.parseInt(object.toString());
-		} catch (NumberFormatException localNumberFormatException) {
-		} catch (NullPointerException localNullPointerException) {
+		} catch (NumberFormatException | NullPointerException ex) {
 		}
-		return 0;
+        return 0;
 	}
 
 	public float toFloat(Object object) {
@@ -874,10 +875,9 @@ public class Vector3D implements Cloneable {
 		}
 		try {
 			return Float.parseFloat(object.toString());
-		} catch (NumberFormatException localNumberFormatException) {
-		} catch (NullPointerException localNullPointerException) {
+		} catch (NumberFormatException | NullPointerException ex) {
 		}
-		return 0.0F;
+        return 0.0F;
 	}
 
 	public double toDouble(Object object) {
@@ -886,8 +886,7 @@ public class Vector3D implements Cloneable {
 		}
 		try {
 			return Double.parseDouble(object.toString());
-		} catch (NumberFormatException localNumberFormatException) {
-		} catch (NullPointerException localNullPointerException) {
+		} catch (NumberFormatException | NullPointerException ex) {
 		}
 		return 0.0D;
 	}
@@ -898,8 +897,7 @@ public class Vector3D implements Cloneable {
 		}
 		try {
 			return Long.parseLong(object.toString());
-		} catch (NumberFormatException localNumberFormatException) {
-		} catch (NullPointerException localNullPointerException) {
+		} catch (NumberFormatException | NullPointerException ex) {
 		}
 		return 0L;
 	}
@@ -910,8 +908,7 @@ public class Vector3D implements Cloneable {
 		}
 		try {
 			return Short.parseShort(object.toString());
-		} catch (NumberFormatException localNumberFormatException) {
-		} catch (NullPointerException localNullPointerException) {
+		} catch (NumberFormatException | NullPointerException ex) {
 		}
 		return 0;
 	}
@@ -922,8 +919,7 @@ public class Vector3D implements Cloneable {
 		}
 		try {
 			return Byte.parseByte(object.toString());
-		} catch (NumberFormatException localNumberFormatException) {
-		} catch (NullPointerException localNullPointerException) {
+		} catch (NumberFormatException | NullPointerException ex) {
 		}
 		return 0;
 	}

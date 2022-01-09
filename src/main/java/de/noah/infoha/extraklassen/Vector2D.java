@@ -2,8 +2,7 @@ package de.noah.infoha.extraklassen;
 
 public class Vector2D {
 	
-	private double x;
-	private double y;
+	private double x, y;
 
 	public Vector2D() {
 		x = 0;

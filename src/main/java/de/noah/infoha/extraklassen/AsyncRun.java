@@ -17,7 +17,8 @@ public class AsyncRun {
         thread.interrupt();
     }
 
-    public static synchronized void runSync(Runnable runnable) {
-        runnable.run();
+    public static void runAsync(Runnable runnable) {
+        new AsyncRun(runnable);
     }
+
 }

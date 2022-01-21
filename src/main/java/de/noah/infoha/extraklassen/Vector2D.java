@@ -1,5 +1,10 @@
 package de.noah.infoha.extraklassen;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Consumer;
+
 public class Vector2D {
 	
 	private double x, y;
@@ -141,6 +146,30 @@ public class Vector2D {
 		return this;
 	}
 
+	/**
+	 * Gets the minimum components of two vectors.
+	 *
+	 * @param v1 The first vector.
+	 * @param v2 The second vector.
+	 * @return minimum
+	 */
+
+	public static Vector2D getMinimum(Vector2D v1, Vector2D v2) {
+		return new Vector2D(Math.min(v1.x, v2.x), Math.min(v1.y, v2.y));
+	}
+
+	/**
+	 * Gets the maximum components of two vectors.
+	 *
+	 * @param v1 The first vector.
+	 * @param v2 The second vector.
+	 * @return maximum
+	 */
+
+	public static Vector2D getMaximum(Vector2D v1, Vector2D v2) {
+		return new Vector2D(Math.max(v1.x, v2.x), Math.max(v1.y, v2.y));
+	}
+
 	public Vector2D getMultiplied(double scalar) {
 		return new Vector2D(x * scalar, y * scalar);
 	}
@@ -247,7 +276,35 @@ public class Vector2D {
 	public double getY() {
 		return y;
 	}
-	
+
+	public static void getSquare(Vector2D v1, Vector2D v2, Consumer<Vector2D> action) {
+		final Vector2D max = getMaximum(v1, v2);
+		final Vector2D min = getMinimum(v1, v2);
+
+
+		for(double x = min.getX(); x <= max.getX(); x++) {
+			for(double y = min.getY(); y <= max.getY(); y++) {
+				action.accept(new Vector2D(x, y));
+			}
+		}
+	}
+
+	public static List<Vector2D> getSquare(Vector2D v1, Vector2D v2) {
+		final List<Vector2D> cubeVectors = new ArrayList<>();
+
+		final Vector2D max = getMaximum(v1, v2);
+		final Vector2D min = getMinimum(v1, v2);
+
+
+		for(double x = min.getX(); x <= max.getX(); x++) {
+			for(double y = min.getY(); y <= max.getY(); y++) {
+				cubeVectors.add(new Vector2D(x, y));
+			}
+		}
+
+		return cubeVectors;
+	}
+
 	@Override
 	public Vector2D clone() {
 		return new Vector2D(x, y);

@@ -86,7 +86,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>de.noah.infoha.netzwerk.DaytimeMain</mainClass>
+                            <mainClass>de.noah.infoha.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -99,7 +99,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>de.noah.infoha.netzwerk.message.MessageMain</mainClass>
+                            <mainClass>de.noah.infoha.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

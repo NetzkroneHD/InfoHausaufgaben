@@ -2,8 +2,8 @@ package de.noah.infoha.extraklassen;
 
 import com.google.common.base.Preconditions;
 
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Represents a mutable vector. Because the components of Vectors are mutable,
@@ -943,5 +943,36 @@ public class Vector3D implements Cloneable {
 			throw new IllegalArgumentException(message);
 		}
 	}
-    
+
+    public static void getCube(Vector3D v1, Vector3D v2, Consumer<Vector3D> action) {
+        final Vector3D max = getMaximum(v1, v2);
+        final Vector3D min = getMinimum(v1, v2);
+
+        for(double x = min.getX(); x <= max.getX(); x++) {
+            for(double y = min.getY(); y <= max.getY(); y++) {
+                for(double z = min.getZ(); z <= max.getZ(); z++) {
+                    action.accept(new Vector3D(x, y, z));
+                }
+            }
+        }
+
+    }
+
+    public static List<Vector3D> getCube(Vector3D v1, Vector3D v2) {
+        final List<Vector3D> cubeVectors = new LinkedList<>();
+
+        final Vector3D max = getMaximum(v1, v2);
+        final Vector3D min = getMinimum(v1, v2);
+
+        for(double x = min.getX(); x <= max.getX(); x++) {
+            for(double y = min.getY(); y <= max.getY(); y++) {
+                for(double z = min.getZ(); z <= max.getZ(); z++) {
+                    cubeVectors.add(new Vector3D(x, y, z));
+                }
+            }
+        }
+
+        return cubeVectors;
+    }
+
 }

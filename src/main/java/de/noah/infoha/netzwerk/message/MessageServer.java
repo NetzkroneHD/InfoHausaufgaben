@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import de.noah.infoha.abiturklassen.Server;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MessageServer extends Server {

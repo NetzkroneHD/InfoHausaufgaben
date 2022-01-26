@@ -80,7 +80,7 @@ public class DatabaseConnector {
 				}
 
 				// Queue fuer die Zeilen der Ergebnistabelle erstellen
-				Queue<String[]> rows = new Queue<String[]>();
+				Queue<String[]> rows = new Queue<>();
 
 				// Daten in Queue uebertragen und Zeilen zaehlen
 				int rowCount = 0;

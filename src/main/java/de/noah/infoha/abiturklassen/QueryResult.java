@@ -18,9 +18,9 @@ package de.noah.infoha.abiturklassen;
  * @version 2015-01-31
  */
 public class QueryResult {
-	private String[][] data;
-	private String[] columnNames;
-	private String[] columnTypes;
+	private final String[][] data;
+	private final String[] columnNames;
+	private final String[] columnTypes;
 
 	/**
 	 * Paketinterner Konstruktor.

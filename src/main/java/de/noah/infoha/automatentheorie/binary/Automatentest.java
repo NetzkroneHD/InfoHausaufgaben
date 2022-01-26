@@ -31,6 +31,7 @@ public class Automatentest {
             lade();
         } else {
             final StringBuilder sb = new StringBuilder();
+
             alleEingaben.toFirst();
             while(alleEingaben.hasAccess()) {
                 sb.append(alleEingaben.getContent().toString());

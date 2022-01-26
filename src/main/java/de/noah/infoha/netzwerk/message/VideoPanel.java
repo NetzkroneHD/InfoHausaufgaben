@@ -30,6 +30,7 @@ public class VideoPanel extends JFrame {
 
         contentPane.add(lblVideo, BorderLayout.CENTER);
         setVisible(true);
+        setResizable(false);
     }
 
     public void updateImage(ImageIcon image) {

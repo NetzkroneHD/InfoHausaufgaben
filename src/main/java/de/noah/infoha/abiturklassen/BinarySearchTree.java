@@ -48,8 +48,8 @@ public class BinarySearchTree<ContentType extends ComparableContent<ContentType>
 			// beide von null verschieden sind. Also hat ein Blatt immer zwei 
 			// leere Teilbaeume unter sich.
 			this.content = pContent;
-			left = new BinarySearchTree<CT>();
-			right = new BinarySearchTree<CT>();
+			left = new BinarySearchTree<>();
+			right = new BinarySearchTree<>();
 		}
 		
 	}
@@ -93,7 +93,7 @@ public class BinarySearchTree<ContentType extends ComparableContent<ContentType>
 	public void insert(ContentType pContent) {
 		if (pContent != null) {
 			if (isEmpty()) {
-				this.node = new BSTNode<ContentType>(pContent);
+				this.node = new BSTNode<>(pContent);
 			} else if (pContent.isLess(this.node.content)) {
 				this.node.left.insert(pContent);
 			} else if(pContent.isGreater(this.node.content)) {

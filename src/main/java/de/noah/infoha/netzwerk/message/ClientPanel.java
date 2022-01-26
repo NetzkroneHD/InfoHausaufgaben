@@ -7,8 +7,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 public class ClientPanel extends JFrame {
 
@@ -77,17 +75,14 @@ public class ClientPanel extends JFrame {
 
         clientList = new List();
         clientList.setBounds(440, 51, 144, 103);
-        clientList.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                textFieldReceiver.setText(clientList.getSelectedItem());
-                if(webcamManager != null) {
-                    if(clientList.getSelectedItem().equalsIgnoreCase("all")) {
-                        webcamManager.setReceiverClientIp("all");
-                    } else {
-                        webcamManager.setReceiverClientIp(clientList.getSelectedItem().split(":")[0]);
-                        webcamManager.setReceiverClientPort(Integer.parseInt(clientList.getSelectedItem().split(":")[1]));
-                    }
+        clientList.addItemListener(e -> {
+            textFieldReceiver.setText(clientList.getSelectedItem());
+            if(webcamManager != null) {
+                if(clientList.getSelectedItem().equalsIgnoreCase("all")) {
+                    webcamManager.setReceiverClientIp("all");
+                } else {
+                    webcamManager.setReceiverClientIp(clientList.getSelectedItem().split(":")[0]);
+                    webcamManager.setReceiverClientPort(Integer.parseInt(clientList.getSelectedItem().split(":")[1]));
                 }
             }
         });
@@ -122,24 +117,22 @@ public class ClientPanel extends JFrame {
         contentPane.add(textArea);
 
         btnVideoAktivieren = new JButton("Video aktivieren");
-        btnVideoAktivieren.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(btnVideoAktivieren.getText().equalsIgnoreCase("Video deaktivieren")) {
-                    if(webcamManager != null) {
-                        webcamManager.stop();
-                        webcamManager = null;
-                        btnVideoAktivieren.setText("Video aktivieren");
-                    }
-                } else {
-                    if(messageClient.isConnected()) {
-                        if(btnVideoAktivieren.getText().equalsIgnoreCase("Video aktivieren")) {
-                            new AsyncRun(() -> {
-                                webcamManager = new WebcamManager(messageClient);
-                                btnVideoAktivieren.setText("Video deaktivieren");
-                            });
-                        }
-                    } else textArea.append("Der Client ist nicht verbunden.\n");
+        btnVideoAktivieren.addActionListener(e -> {
+            if(btnVideoAktivieren.getText().equalsIgnoreCase("Video deaktivieren")) {
+                if(webcamManager != null) {
+                    webcamManager.stop();
+                    webcamManager = null;
+                    btnVideoAktivieren.setText("Video aktivieren");
                 }
+            } else {
+                if(messageClient.isConnected()) {
+                    if(btnVideoAktivieren.getText().equalsIgnoreCase("Video aktivieren")) {
+                        new AsyncRun(() -> {
+                            webcamManager = new WebcamManager(messageClient);
+                            btnVideoAktivieren.setText("Video deaktivieren");
+                        });
+                    }
+                } else textArea.append("Der Client ist nicht verbunden.\n");
             }
         });
         btnVideoAktivieren.setBounds(227, 116, 144, 23);

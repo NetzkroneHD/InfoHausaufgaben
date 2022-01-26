@@ -3,7 +3,6 @@ package de.noah.infoha.netzwerk.message;
 import de.noah.infoha.abiturklassen.Client;
 
 import javax.swing.*;
-import java.awt.*;
 
 
 public class MessageClient extends Client {

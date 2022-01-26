@@ -109,8 +109,7 @@ public class BaumZeichner extends Frame {
         if (baum.isEmpty()) return 0;
         int links = tiefe(baum.getLeftTree()) + 1;
         int rechts = tiefe(baum.getRightTree()) + 1;
-        if (links > rechts) return links;
-        else return rechts;
+        return Math.max(links, rechts);
     }
 
 

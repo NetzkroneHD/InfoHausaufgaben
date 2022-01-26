@@ -23,8 +23,8 @@ public class Queue<ContentType> {
 
     private class QueueNode {
 
-        private ContentType content = null;
-        private QueueNode nextNode = null;
+        private final ContentType content;
+        private QueueNode nextNode;
 
         /**
          * Ein neues Objekt vom Typ QueueNode<ContentType> wird erschaffen.

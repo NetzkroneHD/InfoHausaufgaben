@@ -1,7 +1,5 @@
 package de.noah.infoha.netzwerk;
 
-import de.noah.infoha.netzwerk.ConsolePanel;
-
 public class DaytimeMain {
 
     private static ConsolePanel consolePanel;

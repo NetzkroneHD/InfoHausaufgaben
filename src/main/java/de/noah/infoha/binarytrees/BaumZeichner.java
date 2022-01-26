@@ -92,7 +92,7 @@ public class BaumZeichner extends Frame {
     }
 
     private void zeigeKnoten(int links, int rechts, int y, String inhalt) {
-        String hilf = inhalt;
+        String hilf;
         int mitte = (links + rechts) / 2;
         double abstand = Math.sqrt((mitte-links)*(mitte-links)+_dy*_dy);
         int ddx = (int) ((mitte-links)/abstand*10);
@@ -116,8 +116,7 @@ public class BaumZeichner extends Frame {
         if (baum.isEmpty()) return 0;
         int links = tiefe(baum.getLeftTree()) + 1;
         int rechts = tiefe(baum.getRightTree()) + 1;
-        if (links > rechts) return links;
-        else return rechts;
+        return Math.max(links, rechts);
     }
 
 

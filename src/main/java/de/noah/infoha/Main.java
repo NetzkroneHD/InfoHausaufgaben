@@ -1,10 +1,6 @@
 package de.noah.infoha;
 
-import de.noah.infoha.extraklassen.RandomPossibility;
 import de.noah.infoha.extraklassen.Vector3D;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class Main {
 

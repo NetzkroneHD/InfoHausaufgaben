@@ -5,6 +5,7 @@ import de.noah.infoha.abiturklassen.*;
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Quizspiel {
 
@@ -50,7 +51,7 @@ public class Quizspiel {
         //Statement wird ausgeführt
         connector.executeStatement("SELECT SpielerID FROM Spieler WHERE Benutzername='"+pBenutzer+"'");
         //Überprüfen vom Ergebnis
-        if(connector.getCurrentQueryResult().getData().length > 0) {
+        if(hasData(connector.getCurrentQueryResult())) {
             //SpielerID wird eingetragen
             String spielerId = connector.getCurrentQueryResult().getData()[0][0];
 
@@ -62,17 +63,23 @@ public class Quizspiel {
 
                 connector.executeStatement("SELECT AnzahlBearbeitungen, AnzahlKorrekteBearbeitungen FROM hatBearbeitet WHERE SpielerID='"+spielerId+"'");
 
-                korrekteBearbeitungenSpiel = Integer.parseInt(connector.getCurrentQueryResult().getData()[1][0]);
-                bearbeitungenSpiel = Integer.parseInt(connector.getCurrentQueryResult().getData()[0][0]);
+                if(hasData(connector.getCurrentQueryResult())) {
+                    korrekteBearbeitungenGesamt = Integer.parseInt(connector.getCurrentQueryResult().getData()[0][1]);
+                    bearbeitungenGesamt = Integer.parseInt(connector.getCurrentQueryResult().getData()[0][0]);
+                } else {
+                    korrekteBearbeitungenGesamt = 0;
+                    bearbeitungenGesamt = 0;
+                }
 
 
             }
 
         }
 
+    }
 
-
-
+    private boolean hasData(QueryResult result) {
+        return connector.getCurrentQueryResult().getData().length > 0 && connector.getCurrentQueryResult().getData()[0].length > 0;
     }
 
     public boolean istAngemeldet() {
@@ -85,10 +92,16 @@ public class Quizspiel {
         //Die zwanzig am wenigsten durch den aktuellen Spieler bearbeiteten Aufgaben auslesen.
         //Zufallsaufgabe ermitteln.
 
-
-
+        connector.executeStatement("SELECT * FROM Aufgabe WHERE AufgabeID='1'");
+        offeneAufgaben.append(gibAufgabe(connector.getCurrentQueryResult()));
+        anzahlOffeneAufgaben++;
+        offeneAufgaben.toFirst();
 
         return offeneAufgaben.getContent();
+    }
+
+    private Aufgabe gibAufgabe(QueryResult result) {
+        return new Aufgabe(result.getData()[0][0], result.getData()[0][1], result.getData()[0][2], result.getData()[0][3], result.getData()[0][4], result.getData()[0][5]);
     }
 
     public void abgebenAufgabe(Aufgabe pAufgabe) {
@@ -108,9 +121,12 @@ public class Quizspiel {
             offeneAufgaben.next();
         }
         anzahlOffeneAufgaben--;
-
-        if(pAufgabe.korrektBeantwortet()) korrekteBearbeitungenGesamt++;
-
+        if(pAufgabe.korrektBeantwortet()) {
+            korrekteBearbeitungenSpiel++;
+            korrekteBearbeitungenGesamt++;
+        }
+        bearbeitungenSpiel++;
+        bearbeitungenGesamt++;
 
 
     }

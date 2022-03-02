@@ -29,8 +29,8 @@ public class PatternMatching {
 
 
     public static void main(String[] args) {
-        final PatternMatching pmZahlen = new PatternMatching("(1|2)(34)(56)");
-        pmZahlen.test("1345");
+        final PatternMatching pmZahlen = new PatternMatching("(1|2)(34)(5|6)");
+        pmZahlen.test("12345");
         pmZahlen.test("1346");
         pmZahlen.test("2345");
         pmZahlen.test("2346");

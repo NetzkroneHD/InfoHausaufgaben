@@ -21,7 +21,8 @@ import java.sql.Connection;
  * @version 2016-01-24
  */
 public class DatabaseConnector {
-	private java.sql.Connection connection;
+
+	protected java.sql.Connection connection;
 	private QueryResult currentQueryResult = null;
 	private String message = null;
 
@@ -34,16 +35,10 @@ public class DatabaseConnector {
 	 */
 	public DatabaseConnector(String pIP, int pPort, String pDatabase, String pUsername, String pPassword) {
 		try {
-			// Laden der Treiberklasse
-			Class.forName("com.mysql.jdbc.Driver");
-
 			// Verbindung herstellen
-			connection = DriverManager.getConnection("jdbc:mysql://" + pIP + ":" + pPort + "/" + pDatabase, pUsername,
-					pPassword);
+			connection = DriverManager.getConnection("jdbc:mysql://"+pIP+":"+pPort+"/"+pDatabase, pUsername, pPassword);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception ignored) {}
 	}
 
 	/**

@@ -3,6 +3,8 @@ package de.noah.infoha.quizspiel;
 import de.noah.infoha.abiturklassen.*;
 
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
 
 public class Quizspiel {
 
@@ -30,7 +32,8 @@ public class Quizspiel {
 
         //Verbindung zur Datenbank aufbauen.
         anzahlOffeneAufgaben = 0;
-        connector = new DatabaseConnector("localhost", 3306, "Quizdatenbank", "root", "");
+
+        connector = new DatabaseConnectorSqlite("", 3306, new File("Quiz", "Quizdatenbank.db").getAbsolutePath(), "", "");
         if (connector.getErrorMessage() != null) {
             JOptionPane.showMessageDialog(null, "Verbindung zur Datenbank nicht möglich. \n" + connector.getErrorMessage(), "Fehlermeldung", JOptionPane.ERROR_MESSAGE, null);
             System.exit(0);
@@ -78,14 +81,12 @@ public class Quizspiel {
 
     public Aufgabe gibAufgabe() {
         //Ueberpruefen, ob noch offene Aufgaben in der Pufferliste sind.
-
         //SQL-Anweisung: Aufgaben nach Anzahl der Bearbeitungen durch den aktuellen Spieler aufsteigend sortiert abfragen.
-
-
         //Die zwanzig am wenigsten durch den aktuellen Spieler bearbeiteten Aufgaben auslesen.
-
-
         //Zufallsaufgabe ermitteln.
+
+
+
 
         return offeneAufgaben.getContent();
     }

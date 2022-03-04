@@ -8,6 +8,9 @@ import de.noah.infoha.abiturklassen.QueryResult;
 import javax.swing.*;
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 public class Quizspiel {
 
@@ -72,8 +75,12 @@ public class Quizspiel {
                 connector.executeStatement("SELECT AnzahlBearbeitungen, AnzahlKorrekteBearbeitungen FROM hatBearbeitet WHERE SpielerID='"+spielerId+"'");
 
                 if(hasData(connector.getCurrentQueryResult())) {
-                    korrekteBearbeitungenGesamt = Integer.parseInt(connector.getCurrentQueryResult().getData()[0][1]);
-                    bearbeitungenGesamt = Integer.parseInt(connector.getCurrentQueryResult().getData()[0][0]);
+                    for(int i = 0; i < connector.getCurrentQueryResult().getData().length; i++) {
+                        korrekteBearbeitungenGesamt = korrekteBearbeitungenGesamt+Integer.parseInt(connector.getCurrentQueryResult().getData()[i][1]);
+                        bearbeitungenGesamt = bearbeitungenGesamt+Integer.parseInt(connector.getCurrentQueryResult().getData()[i][0]);
+
+                    }
+
                 } else {
                     korrekteBearbeitungenGesamt = 0;
                     bearbeitungenGesamt = 0;
@@ -97,13 +104,12 @@ public class Quizspiel {
     public Aufgabe gibAufgabe() {
         //Ueberpruefen, ob noch offene Aufgaben in der Pufferliste sind.
 
-        Aufgabe aufgabe = null;
-
         if(!offeneAufgaben.isEmpty()) {
             offeneAufgaben.toFirst();
-            aufgabe = offeneAufgaben.getContent();
+            final Aufgabe aufgabe = offeneAufgaben.getContent();
             offeneAufgaben.remove();
             anzahlOffeneAufgaben--;
+            return aufgabe;
         } else {
             //SQL-Anweisung: Aufgaben nach Anzahl der Bearbeitungen durch den aktuellen Spieler aufsteigend sortiert abfragen.
             //Die zwanzig am wenigsten durch den aktuellen Spieler bearbeiteten Aufgaben auslesen.
@@ -115,17 +121,60 @@ public class Quizspiel {
              * hatBearbeitet(SpielerID, AufgabeID, AnzahlBearbeitungen, AnzahlKorrekteBearbeitungen)
              */
 
-            connector.executeStatement("SELECT Aufgabe.AufgabeID FROM Aufgabe " +
-                    "INNER JOIN hatBearbeitet " +
-                    "ON Aufgabe.AufgabeID=hatBearbeitet.AufgabeID" +
-                    "");
+            connector.executeStatement("SELECT * FROM hatBearbeitet WHERE SpielerID='"+aktuelleSpielerID+"'");
+            int berarbeiteteAufgaben = connector.getCurrentQueryResult().getData().length;
 
-            print(connector.getCurrentQueryResult());
+            connector.executeStatement("SELECT * FROM Aufgabe");
+            int anzahlAufgaben = connector.getCurrentQueryResult().getData().length;
 
-            anzahlOffeneAufgaben++;
+            if(berarbeiteteAufgaben < anzahlAufgaben) {
+                ladeRandomAufgaben(20);
+            } else {
+                connector.executeStatement("SELECT Aufgabe.AufgabeID, hatBearbeitet.SpielerID, hatBearbeitet.AnzahlBearbeitungen " +
+                        "FROM Aufgabe " +
+                        "INNER JOIN hatBearbeitet " +
+                        "ON Aufgabe.AufgabeID=hatBearbeitet.AufgabeID " +
+                        "WHERE SpielerID='"+aktuelleSpielerID+"' " +
+                        "ORDER BY hatBearbeitet.AnzahlBearbeitungen ASC");
+
+                if(hasData(connector.getCurrentQueryResult())) {
+                    if(connector.getCurrentQueryResult().getData().length < 20) {
+                        ladeRandomAufgaben(20);
+                    } else {
+                        final String[][] data = connector.getCurrentQueryResult().getData();
+                        for(int i = 0; i < 20; i++) {
+                            connector.executeStatement("SELECT * FROM Aufgabe WHERE AufgabeID='"+data[i][0]+"'");
+                            offeneAufgaben.append(gibAufgabe(connector.getCurrentQueryResult()));
+                            anzahlOffeneAufgaben++;
+                        }
+
+                    }
+                }
+            }
+
         }
 
+        offeneAufgaben.toFirst();
+
         return offeneAufgaben.getContent();
+    }
+
+    private void ladeRandomAufgaben(int limit) {
+        connector.executeStatement("SELECT * FROM Aufgabe");
+
+        final String[][] data = connector.getCurrentQueryResult().getData();
+        final Random random = new Random();
+        final Set<Integer> done = new HashSet<>();
+
+        for(int i = 0; i < limit; i++) {
+            int r = random.nextInt(data.length);
+            while(done.contains(r)) {
+                r = random.nextInt(data.length);
+            }
+            done.add(r);
+            offeneAufgaben.append(new Aufgabe(data[r][0], data[r][1], data[r][2], data[r][3], data[r][4], data[r][5]));
+            anzahlOffeneAufgaben++;
+        }
     }
 
     private Aufgabe gibAufgabe(QueryResult result) {

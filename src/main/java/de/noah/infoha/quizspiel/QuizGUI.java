@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 /**
  * Aufgabenstellung
  */
-public class GUI extends JFrame {
+public class QuizGUI extends JFrame {
 
     //GUI-Komponenten
     private JPanel anmeldung = new JPanel(null, true);
@@ -41,7 +41,7 @@ public class GUI extends JFrame {
     private Aufgabe aktuelleAufgabe;
     private Timer ausgabenWechsler;
 
-    public GUI() {
+    public QuizGUI() {
         // Frame-Initialisierung
         super("Quizspiel");
 
@@ -224,7 +224,7 @@ public class GUI extends JFrame {
         // Ende Komponenten
 
         //Timer zum Wechseln zu einer neuen Aufgabe.
-        ausgabenWechsler = new javax.swing.Timer(2000, new ActionListener() {
+        ausgabenWechsler = new javax.swing.Timer(800, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //Welchsler bis zur naechsten Verwendung stoppen.
                 ausgabenWechsler.stop();

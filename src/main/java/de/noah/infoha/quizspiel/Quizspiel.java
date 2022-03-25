@@ -94,7 +94,7 @@ public class Quizspiel {
     }
 
     private boolean hasData(QueryResult result) {
-        return connector.getCurrentQueryResult().getData().length > 0 && connector.getCurrentQueryResult().getData()[0].length > 0;
+        return result.getData().length > 0 && result.getData()[0].length > 0;
     }
 
     public boolean istAngemeldet() {

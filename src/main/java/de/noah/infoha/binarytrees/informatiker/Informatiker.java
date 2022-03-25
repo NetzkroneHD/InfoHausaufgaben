@@ -2,14 +2,10 @@ package de.noah.infoha.binarytrees.informatiker;
 
 import de.noah.infoha.abiturklassen.ComparableContent;
 
-/**
- * <p>Qualitaets- und UnterstuetzungsAgentur - Landesinstitut fuer Schule, Materialien zum schulinternen Lehrplan Informatik SII</p>
- *
- * @version 2014-03-13
- */
 public class Informatiker implements ComparableContent<Informatiker> {
-  private String name;
-  private String gebDatum;
+
+  private final String name;
+  private final String gebDatum;
 
   public Informatiker(String pName, String pDatum) {
     super();

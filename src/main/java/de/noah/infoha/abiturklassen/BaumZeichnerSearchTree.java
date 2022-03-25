@@ -1,15 +1,17 @@
-package de.noah.infoha.binarytrees;
+package de.noah.infoha.abiturklassen;
+
 /**
  * <p>Qualitaets- und UnterstuetzungsAgentur - Landesinstitut fuer Schule, Materialien zum schulinternen Lehrplan Informatik SII</p>
  *
  * @version 2014-03-13
  */
-import de.noah.infoha.abiturklassen.BinaryTree;
-import de.noah.infoha.binarytrees.informatiker.Informatiker;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -19,27 +21,25 @@ import java.awt.image.*;
  * @author
  */
 
-public class BaumZeichner extends Frame {
+public class BaumZeichnerSearchTree extends Frame {
 
-    BinaryTree<?> _baum;
+    BinarySearchTree<?> _baum;
     BufferedImage img;
     Graphics g;
-    int _dy;              //  Abstand der Baumebenen
-    int _tiefe = 0;       //  Tiefe des Baumes
-    String suchName = "";
+    int _dy;
 
-    public BaumZeichner(int frameWidth, int frameHeight, BinaryTree<Informatiker> pBaum) {
-        super("BinaryTree");
+    public BaumZeichnerSearchTree(int frameWidth, int frameHeight, BinarySearchTree<?> pBaum) {
+        super("BinarySearchTree");
         _baum = pBaum;
         addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent evt) { dispose(); }
-            });
+            public void windowClosing(WindowEvent evt) { dispose(); }
+        });
 
         addComponentListener(new ComponentAdapter(){
-                public void componentResized(ComponentEvent e){
-                    zeigeBaum();
-                }
-            });
+            public void componentResized(ComponentEvent e){
+                zeigeBaum();
+            }
+        });
 
         setSize(frameWidth, frameHeight);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -71,7 +71,7 @@ public class BaumZeichner extends Frame {
         this.repaint();
     }
 
-    public void zeigeBaum(BinaryTree<?> pBaum) {
+    public void zeigeBaum(BinarySearchTree<?> pBaum) {
         _baum = pBaum;
         zeigeBaum();
     }
@@ -83,7 +83,7 @@ public class BaumZeichner extends Frame {
         g.setFont(new Font("Arial", Font.BOLD,12));
     }
 
-    private void zeichneInorder(int links, int rechts, int y, BinaryTree baum) {
+    private void zeichneInorder(int links, int rechts, int y, BinarySearchTree<?> baum) {
         if (baum.isEmpty()) return;
         int mitte = (links + rechts) / 2;
         zeichneInorder(links, mitte,y+_dy,baum.getLeftTree());
@@ -92,7 +92,6 @@ public class BaumZeichner extends Frame {
     }
 
     private void zeigeKnoten(int links, int rechts, int y, String inhalt) {
-        String hilf;
         int mitte = (links + rechts) / 2;
         double abstand = Math.sqrt((mitte-links)*(mitte-links)+_dy*_dy);
         int ddx = (int) ((mitte-links)/abstand*10);
@@ -101,10 +100,7 @@ public class BaumZeichner extends Frame {
         g.drawLine(mitte-ddx,y+ddy, (links+mitte) / 2 + ddx, y + _dy-ddy);
         g.drawLine(mitte+ddx,y+ddy, (mitte+rechts) /2 - ddx, y + _dy-ddy);
 
-        hilf = inhalt.substring(0, inhalt.indexOf(' '));
-        if (suchName.equals(hilf))
-             g.setColor(new Color(255,200,200));
-        else g.setColor(new Color(255,255,0));
+        g.setColor(new Color(255,255,0));
         g.fillArc(mitte-10,y-10,20,20,0,360);
         g.setColor(new Color(0,0,0));
         g.drawArc(mitte-10,y-10,20,20,0,360);
@@ -112,26 +108,11 @@ public class BaumZeichner extends Frame {
         g.drawString(inhalt,mitte-3,y+5);
     }
 
-    public int tiefe(BinaryTree baum) {
+    public int tiefe(BinarySearchTree<?> baum) {
         if (baum.isEmpty()) return 0;
         int links = tiefe(baum.getLeftTree()) + 1;
         int rechts = tiefe(baum.getRightTree()) + 1;
         return Math.max(links, rechts);
-    }
-
-
-    public void warte(int dur){
-        try {
-            Thread.sleep(dur);
-        } catch(Exception e) {
-
-        } finally {
-
-        }
-    }
-
-    public void markiere(String name) {
-        suchName = name;
     }
 
 

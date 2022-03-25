@@ -12,7 +12,7 @@ public class IFBaum {
     private BinarySearchTree<Informatiker> baum;
 
     public IFBaum() {
-        baum = new BinarySearchTree<Informatiker>();
+        baum = new BinarySearchTree<>();
     }
 
     public String suche(String pName) {
@@ -20,7 +20,7 @@ public class IFBaum {
         if (!baum.isEmpty()) {
             Object ergebnis = baum.search(inf);
             if (ergebnis != null)
-                return ergebnis.toString() + "\n";
+                return ergebnis + "\n";
             else
                 return "--\n";
         } else {
@@ -47,9 +47,9 @@ public class IFBaum {
     private BinaryTree<Informatiker> gibBaum(BinarySearchTree<Informatiker> bs) {
         BinaryTree<Informatiker> b;
         if (bs.isEmpty())
-            b = new BinaryTree<Informatiker>();
+            b = new BinaryTree<>();
         else {
-            b = new BinaryTree<Informatiker>(bs.getContent());
+            b = new BinaryTree<>(bs.getContent());
             if (bs.getLeftTree() != null)
                 b.setLeftTree(this.gibBaum(bs.getLeftTree()));
             if (bs.getRightTree() != null)
@@ -59,7 +59,7 @@ public class IFBaum {
     }
 
     public void leereBaum() {
-        baum = new BinarySearchTree<Informatiker>();
+        baum = new BinarySearchTree<>();
     }
 
     public String toString() {

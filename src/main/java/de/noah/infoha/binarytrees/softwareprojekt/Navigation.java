@@ -76,6 +76,16 @@ public class Navigation {
         zeichner = new BaumZeichnerSearchTree(600, 400, baum);
         zeichner.setVisible(true);
 
+        final List<Vertex> weg = gibKuerzesterWeg(hamburg.getVertex(), lissabon.getVertex());
+
+        System.out.println("Länge: "+getLaenge(weg));
+        System.out.println("Weg: "+toString(weg));
+        System.out.println("Alle Wege: ");
+
+        final List<List<Vertex>> alleWege = new List<>();
+        sucheAlleWege(hamburg.getVertex(), lissabon.getVertex(), new List<>(), alleWege);
+        System.out.println(toString2(alleWege));
+
     }
 
     public Stadt getStadt(String name) {
@@ -83,19 +93,71 @@ public class Navigation {
         return baum.search(stadt);
     }
 
-    public List<Vertex> kuerzesterWeg(Vertex start, Vertex ziel) {
+    public String toString(List<?> list) {
+        final StringBuilder sb = new StringBuilder();
+
+        list.toFirst();
+        while(list.hasAccess()) {
+            sb.append(list.getContent().toString()).append("-");
+            list.next();
+        }
+
+        return sb.toString();
+    }
+
+    public String toString2(List<List<Vertex>> list) {
+        final StringBuilder sb = new StringBuilder();
+
+        list.toFirst();
+        while(list.hasAccess()) {
+            list.getContent().toFirst();
+            while(list.getContent().hasAccess()) {
+                sb.append(list.getContent().getContent().toString()).append("-");
+                list.getContent().next();
+            }
+            sb.append("\n");
+            list.next();
+        }
+
+        return sb.toString();
+    }
+
+    public List<Vertex> gibKuerzesterWeg(Vertex start, Vertex ziel) {
         final List<Vertex> weg = new List<>();
         final List<List<Vertex>> alleWege = new List<>();
         graph.setAllVertexMarks(false);
         sucheAlleWege(start, ziel, weg, alleWege);
 
-        double kuerzester = 0;
-        List<Vertex> kuerzesterWeg = new List<>();
+        List<Vertex> kuerzesterWeg = null;
 
-
-
+        alleWege.toFirst();
+        while (alleWege.hasAccess()) {
+            if(kuerzesterWeg == null) {
+                kuerzesterWeg = alleWege.getContent();
+            } else {
+                if(getLaenge(alleWege.getContent()) < getLaenge(kuerzesterWeg)) {
+                    kuerzesterWeg = alleWege.getContent();
+                }
+            }
+            alleWege.next();
+        }
 
         return kuerzesterWeg;
+    }
+
+    private double getLaenge(List<Vertex> weg) {
+        double laenge = 0;
+        weg.toFirst();
+        while (weg.hasAccess()) {
+            final Vertex current = weg.getContent();
+            weg.next();
+            if(weg.hasAccess()) {
+                laenge = laenge+graph.getEdge(current, weg.getContent()).getWeight();
+            } else break;
+            weg.next();
+        }
+
+        return laenge;
     }
 
     public void sucheAlleWege(Vertex knoten, Vertex ziel, List<Vertex> weg, List<List<Vertex>> alleWege){
@@ -136,6 +198,12 @@ public class Navigation {
             liste2.append(liste1.getContent());
             liste1.next();
         }
+
+    }
+
+
+    public static void main(String[] args) {
+        new Navigation().ladeStaedte();
 
     }
 

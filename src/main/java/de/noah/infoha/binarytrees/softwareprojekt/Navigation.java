@@ -76,8 +76,6 @@ public class Navigation {
         zeichner = new BaumZeichnerSearchTree(600, 400, baum);
         zeichner.setVisible(true);
 
-        System.out.println(sucheWegToString(hamburg.getName(), peking.getName()));
-
     }
 
     public Stadt getStadt(String name) {
@@ -85,56 +83,60 @@ public class Navigation {
         return baum.search(stadt);
     }
 
-    public String sucheWegToString(String start, String ziel) {
-        List<Vertex> weg = new List<>();
+    public List<Vertex> kuerzesterWeg(Vertex start, Vertex ziel) {
+        final List<Vertex> weg = new List<>();
+        final List<List<Vertex>> alleWege = new List<>();
         graph.setAllVertexMarks(false);
-        Vertex startKnoten = graph.getVertex(start);
-        Vertex zielKnoten = graph.getVertex(ziel);
-        String wegString;
-        if (sucheWeg(startKnoten, zielKnoten, weg)) {
-            wegString = knotenListeToString(weg);
-        } else {
-            wegString = "";
-        }
-        return wegString;
+        sucheAlleWege(start, ziel, weg, alleWege);
+
+        double kuerzester = 0;
+        List<Vertex> kuerzesterWeg = new List<>();
+
+
+
+
+        return kuerzesterWeg;
     }
 
-    public boolean sucheWeg(Vertex knoten, Vertex ziel, List<Vertex> weg) {
-        boolean wegGefunden = false;
+    public void sucheAlleWege(Vertex knoten, Vertex ziel, List<Vertex> weg, List<List<Vertex>> alleWege){
         knoten.setMark(true);
         weg.append(knoten);
-        if (knoten != ziel) {
-            List<Vertex> nachbarn = graph.getNeighbours(knoten);
+        if (knoten != ziel){
+            final List<Vertex> nachbarn = graph.getNeighbours(knoten);
             nachbarn.toFirst();
-            while (!wegGefunden && nachbarn.hasAccess()) {
-                Vertex nachbar = nachbarn.getContent();
-                if (!nachbar.isMarked()) {
-                    wegGefunden = sucheWeg(nachbar, ziel, weg);
-                    if (!wegGefunden) {
-                        weg.toLast();
-                        Vertex loeschKnoten = weg.getContent();
-                        loeschKnoten.setMark(false);
-                        weg.remove();
-                    }
+
+            while (nachbarn.hasAccess()) {
+                final Vertex nachbar = nachbarn.getContent();
+                if (!nachbar.isMarked()){
+                    sucheAlleWege(nachbar, ziel, weg, alleWege);
+                    //Schritt rückgängig machen
+                    weg.toLast();
+
+                    final Vertex rk = weg.getContent();
+                    rk.setMark(false);
+                    weg.remove();
                 }
                 nachbarn.next();
             }
         } else {
-            wegGefunden = true;
+            final List<Vertex> einWeg = new List<>();
+
+            copy(weg, einWeg);
+            alleWege.append(einWeg);
         }
-        return wegGefunden;
     }
 
-    public String knotenListeToString(List<Vertex> liste) {
-        liste.toFirst();
-        StringBuilder listenString = new StringBuilder();
-        while (liste.hasAccess()) {
-            String id = liste.getContent().getID();
-            listenString.append(id).append(" ");
-            liste.next();
+    public void copy(List<Vertex> liste1, List<Vertex> liste2) {
+        liste2.toFirst();
+        while (!liste2.isEmpty()) {
+            liste2.remove();
         }
-        return listenString.toString();
-    }
+        liste1.toFirst();
+        while (liste1.hasAccess()) {
+            liste2.append(liste1.getContent());
+            liste1.next();
+        }
 
+    }
 
 }

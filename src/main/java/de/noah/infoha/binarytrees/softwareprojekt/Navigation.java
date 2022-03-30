@@ -2,11 +2,12 @@ package de.noah.infoha.binarytrees.softwareprojekt;
 
 import de.noah.infoha.abiturklassen.*;
 
+import java.util.Scanner;
+
 public class Navigation {
 
     private final Graph graph;
     private final BinarySearchTree<Stadt> baum;
-    private BaumZeichnerSearchTree zeichner;
 
     public Navigation() {
         graph = new Graph();
@@ -73,24 +74,40 @@ public class Navigation {
         baum.insert(lissabon);
         baum.insert(duisburg);
 
-        zeichner = new BaumZeichnerSearchTree(600, 400, baum);
-        zeichner.setVisible(true);
-
-        final List<Vertex> weg = gibKuerzesterWeg(hamburg.getVertex(), lissabon.getVertex());
-
-        System.out.println("Länge: "+getLaenge(weg));
-        System.out.println("Weg: "+toString(weg));
-        System.out.println("Alle Wege: ");
-
-        final List<List<Vertex>> alleWege = new List<>();
-        sucheAlleWege(hamburg.getVertex(), lissabon.getVertex(), new List<>(), alleWege);
-        System.out.println(toString2(alleWege));
-
     }
 
-    public Stadt getStadt(String name) {
-        final Stadt stadt = new Stadt(name, 0, "");
-        return baum.search(stadt);
+    public void auswahl() {
+        System.out.println("Städte: "+new Traversierung().traversiereBaum(baum, Traversierung.Type.INORDER, ", "));
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Bitte wähle eine Stadt als Startpunkt: ");
+        final Stadt start = gibStadt(sc.nextLine());
+
+        System.out.print("Bitte wähle eine Stadt als Ziel: ");
+        final Stadt ziel = gibStadt(sc.nextLine());
+
+        System.out.println("Arten: Direkt/ Kurz");
+        System.out.print("Bitte wähle eine Art um ans Ziel zu kommen: ");
+
+        final String art = sc.nextLine();
+        if(art.toLowerCase().startsWith("k")) {
+            final List<Vertex> kurz = gibKuerzesterWeg(start.getVertex(), ziel.getVertex());
+            System.out.println("Kürzester Weg");
+            System.out.println("Länge: "+ gibLaenge(kurz));
+            System.out.println("Weg: "+toString(kurz));
+
+        } else {
+            final List<Vertex> direkter = gibDirekten(start.getVertex(), ziel.getVertex());
+            System.out.println("Direkter Weg");
+            System.out.println("Länge: "+gibLaenge(direkter));
+            System.out.println("Weg: "+toString(direkter));
+
+        }
+        System.exit(0);
+    }
+
+    private Stadt gibStadt(String name) {
+        return baum.search(new Stadt(name, 0, ""));
     }
 
     public String toString(List<?> list) {
@@ -115,18 +132,41 @@ public class Navigation {
                 sb.append(list.getContent().getContent().toString()).append("-");
                 list.getContent().next();
             }
-            sb.append("\n");
+            sb.append(gibLaenge(list.getContent())).append("\n");
             list.next();
         }
 
         return sb.toString();
     }
 
+    public List<Vertex> gibDirekten(Vertex start, Vertex ziel) {
+        final List<Vertex> weg = new List<>();
+        final List<List<Vertex>> alleWege = new List<>();
+        graph.setAllVertexMarks(false);
+        gibAlleWege(start, ziel, weg, alleWege);
+
+        List<Vertex> direktenWeg = null;
+
+        alleWege.toFirst();
+        while (alleWege.hasAccess()) {
+            if(direktenWeg == null) {
+                direktenWeg = alleWege.getContent();
+            } else {
+                if(gibSize(alleWege.getContent()) < gibSize(direktenWeg)) {
+                    direktenWeg = alleWege.getContent();
+                }
+            }
+            alleWege.next();
+        }
+
+        return direktenWeg;
+    }
+
     public List<Vertex> gibKuerzesterWeg(Vertex start, Vertex ziel) {
         final List<Vertex> weg = new List<>();
         final List<List<Vertex>> alleWege = new List<>();
         graph.setAllVertexMarks(false);
-        sucheAlleWege(start, ziel, weg, alleWege);
+        gibAlleWege(start, ziel, weg, alleWege);
 
         List<Vertex> kuerzesterWeg = null;
 
@@ -135,7 +175,7 @@ public class Navigation {
             if(kuerzesterWeg == null) {
                 kuerzesterWeg = alleWege.getContent();
             } else {
-                if(getLaenge(alleWege.getContent()) < getLaenge(kuerzesterWeg)) {
+                if(gibLaenge(alleWege.getContent()) < gibLaenge(kuerzesterWeg)) {
                     kuerzesterWeg = alleWege.getContent();
                 }
             }
@@ -145,7 +185,18 @@ public class Navigation {
         return kuerzesterWeg;
     }
 
-    private double getLaenge(List<Vertex> weg) {
+    private int gibSize(List<Vertex> weg) {
+        int laenge = 0;
+        weg.toFirst();
+        while (weg.hasAccess()) {
+            laenge++;
+            weg.next();
+        }
+
+        return laenge;
+    }
+
+    private double gibLaenge(List<Vertex> weg) {
         double laenge = 0;
         weg.toFirst();
         while (weg.hasAccess()) {
@@ -160,17 +211,17 @@ public class Navigation {
         return laenge;
     }
 
-    public void sucheAlleWege(Vertex knoten, Vertex ziel, List<Vertex> weg, List<List<Vertex>> alleWege){
+    public void gibAlleWege(Vertex knoten, Vertex ziel, List<Vertex> weg, List<List<Vertex>> alleWege){
         knoten.setMark(true);
         weg.append(knoten);
-        if (knoten != ziel){
+        if (knoten != ziel) {
             final List<Vertex> nachbarn = graph.getNeighbours(knoten);
             nachbarn.toFirst();
 
             while (nachbarn.hasAccess()) {
                 final Vertex nachbar = nachbarn.getContent();
                 if (!nachbar.isMarked()){
-                    sucheAlleWege(nachbar, ziel, weg, alleWege);
+                    gibAlleWege(nachbar, ziel, weg, alleWege);
                     //Schritt rückgängig machen
                     weg.toLast();
 
@@ -188,7 +239,7 @@ public class Navigation {
         }
     }
 
-    public void copy(List<Vertex> liste1, List<Vertex> liste2) {
+    private void copy(List<Vertex> liste1, List<Vertex> liste2) {
         liste2.toFirst();
         while (!liste2.isEmpty()) {
             liste2.remove();
@@ -203,7 +254,9 @@ public class Navigation {
 
 
     public static void main(String[] args) {
-        new Navigation().ladeStaedte();
+        final Navigation navigation = new Navigation();
+        navigation.ladeStaedte();
+        navigation.auswahl();
 
     }
 
